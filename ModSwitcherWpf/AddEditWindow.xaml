@@ -68,7 +68,7 @@
         <RadioButton Style="{StaticResource DarkThemeRadioButton}" Content="Mod Path:" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=UsingModPath}"/>
         <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,136,0,0" TextWrapping="NoWrap" Text="{Binding Path=TheMod.Flag}" VerticalAlignment="Top" Width="272" IsEnabled="{Binding Path=UsingFlag}"/>
         <RadioButton Style="{StaticResource DarkThemeRadioButton}" Content="Flag:" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=UsingFlag}"/>
-        <Button Style="{StaticResource DarkThemeButton}" Content="OK" HorizontalAlignment="Left" Margin="276,166,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OKCommand}" Height="23" IsEnabled="{Binding Path=OKEnabled}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="OK" HorizontalAlignment="Left" Margin="276,166,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OKCommand}" Height="23" IsEnabled="{Binding Path=OKEnabled}" IsDefault="True"/>
         <Button Style="{StaticResource DarkThemeButton}" Content="Cancel" HorizontalAlignment="Left" Margin="356,166,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CancelCommand}" Height="23"/>
     </Grid>
 </Window>
