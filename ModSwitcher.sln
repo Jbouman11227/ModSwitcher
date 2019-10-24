@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModSwitcherWpf", "ModSwitcherWpf\ModSwitcherWpf.csproj", "{ECEEB7E7-D1D5-4E26-A573-D87E581A72D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModSwitcherLib", "ModSwitcherLib\ModSwitcherLib.csproj", "{E202D0F4-098C-4C26-918B-551EC0D3BA75}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECEEB7E7-D1D5-4E26-A573-D87E581A72D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECEEB7E7-D1D5-4E26-A573-D87E581A72D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECEEB7E7-D1D5-4E26-A573-D87E581A72D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECEEB7E7-D1D5-4E26-A573-D87E581A72D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E202D0F4-098C-4C26-918B-551EC0D3BA75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E202D0F4-098C-4C26-918B-551EC0D3BA75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E202D0F4-098C-4C26-918B-551EC0D3BA75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E202D0F4-098C-4C26-918B-551EC0D3BA75}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5F3521A-B38F-4096-95A0-BECFE3FEA7C1}
+	EndGlobalSection
+EndGlobal

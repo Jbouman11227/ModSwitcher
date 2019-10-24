@@ -1,0 +1,74 @@
+﻿<Window x:Class="ModSwitcherWpf.AddEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:ModSwitcherWpf.ViewModels"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:Types="clr-namespace:ModSwitcherLib.Types;assembly=ModSwitcherLib"
+        xmlns:local="clr-namespace:ModSwitcherWpf"
+        xmlns:converters="clr-namespace:ModSwitcherWpf.Converters"
+        mc:Ignorable="d"
+        Title="{Binding Path=WindowName}" Height="237.715" Width="457.102" Icon="Resources/AppIcon.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="ModTypes" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Types:ModType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <converters:EnumToStringConverter x:Key="EnumConverter"/>
+        <Style x:Key="DarkThemeButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#1D2027"/>
+            <Setter Property="Foreground" Value="#A9ADB8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2C303B"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="DarkThemeTextBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="#A9ADB8"/>
+        </Style>
+        <Style x:Key="DarkThemeRadioButton" TargetType="{x:Type RadioButton}">
+            <Setter Property="Foreground" Value="#A9ADB8"/>
+        </Style>
+        <Style x:Key="DarkThemeTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="#A9ADB8"/>
+            <Setter Property="Background" Value="#2C303B"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style x:Key="DarkThemeListBox" TargetType="{x:Type ListBox}">
+            <Setter Property="Foreground" Value="#A9ADB8"/>
+            <Setter Property="Background" Value="#2C303B"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:AddEditViewModel/>
+    </Window.DataContext>
+    <Grid Background="#1D2027">
+        <TextBlock Style="{StaticResource DarkThemeTextBlock}" HorizontalAlignment="Left" Margin="29,12,0,0" TextWrapping="Wrap" Text="Mod Name:" VerticalAlignment="Top"/>
+        <TextBlock Style="{StaticResource DarkThemeTextBlock}" HorizontalAlignment="Left" Margin="29,43,0,0" TextWrapping="Wrap" Text="Game Path:" VerticalAlignment="Top"/>
+        <TextBlock Style="{StaticResource DarkThemeTextBlock}" HorizontalAlignment="Left" Margin="29,74,0,0" TextWrapping="Wrap" Text="Mod Type:" VerticalAlignment="Top"/>
+        <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,12,0,0" TextWrapping="NoWrap" Text="{Binding Path=TheModName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="272" VerticalContentAlignment="Top"/>
+        <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,43,0,0" TextWrapping="NoWrap" Text="{Binding Path=TheMod.GamePath}" VerticalAlignment="Top" Width="272"/>
+        <ComboBox  HorizontalAlignment="Left" Margin="123,73,0,0" VerticalAlignment="Top" Width="272" Height="21" ItemsSource="{Binding Source={StaticResource ModTypes}}" SelectedItem="{Binding Path=TheMod.modType, Converter={StaticResource EnumConverter}, Mode=TwoWay}"/>
+        <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,105,0,0" TextWrapping="NoWrap" Text="{Binding Path=TheMod.ModPath}" VerticalAlignment="Top" Width="272" IsEnabled="{Binding Path=UsingModPath}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,43,0,0" VerticalAlignment="Top" Width="31" Height="18" Command="{Binding OpenFileDialogCommand}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,105,0,0" VerticalAlignment="Top" Width="31" Height="18" IsEnabled="{Binding Path=UsingModPath}" Command="{Binding OpenFileFolderDialogCommand}"/>
+        <RadioButton Style="{StaticResource DarkThemeRadioButton}" Content="Mod Path:" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=UsingModPath}"/>
+        <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,136,0,0" TextWrapping="NoWrap" Text="{Binding Path=TheMod.Flag}" VerticalAlignment="Top" Width="272" IsEnabled="{Binding Path=UsingFlag}"/>
+        <RadioButton Style="{StaticResource DarkThemeRadioButton}" Content="Flag:" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=UsingFlag}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="OK" HorizontalAlignment="Left" Margin="276,166,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OKCommand}" Height="23" IsEnabled="{Binding Path=OKEnabled}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="Cancel" HorizontalAlignment="Left" Margin="356,166,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CancelCommand}" Height="23"/>
+    </Grid>
+</Window>
