@@ -11,12 +11,19 @@ namespace ModSwitcherWpf.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        #region Constructor
+        #region Constructors
         public MainViewModel()
+        {
+
+        }
+        
+        public MainViewModel(Action closeAction)
         {
             CurrentMod = null;
             ModList = new ObservableCollection<Mod>();
             SelectedMod = null;
+            CloseEvent = closeAction;
+
             if (File.Exists("config.xml"))
             {
                 try
@@ -24,21 +31,30 @@ namespace ModSwitcherWpf.ViewModels
                     string currentModName = null;
                     XMLConfig.ReadXML(ModList, ref currentModName);
                     CurrentMod = ModList.Where(mod => mod.ModName == currentModName).FirstOrDefault();
+                    if (string.IsNullOrEmpty(XMLConfig.ReadGamePath()))
+                    {
+                        SetGamePathOrTerminate();
+                    }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     MessageBox.Show($"Failed to load the configuration from config.xml: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    if(CloseEvent != null)
+                    if (CloseEvent != null)
                     {
                         CloseEvent();
                     }
-                } 
+                }
+            }
+            else
+            {
+                XMLConfig.WriteNewConfig();
+                SetGamePathOrTerminate();
             }
         }
         #endregion
 
         #region Properties
-        public ObservableCollection<Mod> ModList { get; set; }
+        public ObservableCollection<string> ModNameList { get; set; }
 
         private Mod _currentMod;
 
@@ -92,6 +108,7 @@ namespace ModSwitcherWpf.ViewModels
         #region Commands
         private void StartGame()
         {
+            string gamePath = XMLConfig.ReadGamePath();
             string flag = string.Empty;
             if (CurrentMod.UsingModPath)
             {
@@ -106,7 +123,7 @@ namespace ModSwitcherWpf.ViewModels
             }
             try
             {
-                Process.Start($"\"{CurrentMod.GamePath}\"", flag);
+                Process.Start($"\"{gamePath}\"", flag);
                 if (CloseEvent != null)
                 {
                     CloseEvent();
@@ -139,9 +156,9 @@ namespace ModSwitcherWpf.ViewModels
         private void Remove()
         {
             var result = MessageBox.Show($"Are you sure you want to delete {SelectedMod.ModName}?", "Delete Mod", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if(result == DialogResult.Yes)
+            if (result == DialogResult.Yes)
             {
-                if(CurrentMod == SelectedMod)
+                if (CurrentMod == SelectedMod)
                 {
                     CurrentMod = null;
                     OnPropertyChanged("CurrentMod");
@@ -149,6 +166,17 @@ namespace ModSwitcherWpf.ViewModels
                 ModList.Remove(SelectedMod);
                 XMLConfig.WriteXML(ModList, CurrentMod);
             }
+        }
+
+        private void About()
+        {
+
+        }
+
+        private void Settings()
+        {
+            var gamePathWindow = new GamePathWindow(false);
+            gamePathWindow.ShowDialog();
         }
 
         public ICommand StartGameCommand
@@ -182,6 +210,31 @@ namespace ModSwitcherWpf.ViewModels
                 return new DelegateCommand(Remove);
             }
         }
+
+        public ICommand AboutCommand
+        {
+            get
+            {
+                return new DelegateCommand(About);
+            }
+        }
+
+        public ICommand SettingsCommand
+        {
+            get
+            {
+                return new DelegateCommand(Settings);
+            }
+        }
         #endregion Commands
+
+        private void SetGamePathOrTerminate()
+        {
+            bool clickedOK = (new GamePathWindow(true)).ShowDialogResult();
+            if (!clickedOK)
+            {
+                CloseEvent();
+            }
+        }
     }
 }

@@ -44,10 +44,10 @@
         </Style>
     </Window.Resources>
     <Grid Background="#1D2027">
-        <Button Style="{StaticResource DarkThemeButton}" HorizontalAlignment="Left" Margin="257,331,0,0" VerticalAlignment="Top" Width="18" Height="18">
+        <Button Style="{StaticResource DarkThemeButton}" HorizontalAlignment="Left" Margin="257,331,0,0" VerticalAlignment="Top" Width="18" Height="18" Command="{Binding SettingsCommand}">
             <Image Source="Resources\custom gear.png" RenderOptions.BitmapScalingMode="HighQuality" Height="18" Width="18"></Image>
         </Button>
-        <Button Style="{StaticResource DarkThemeButton}" HorizontalAlignment="Left" Margin="234,331,0,0" VerticalAlignment="Top" Width="18" Height="18">
+        <Button Style="{StaticResource DarkThemeButton}" HorizontalAlignment="Left" Margin="234,331,0,0" VerticalAlignment="Top" Width="18" Height="18" Command="{Binding AboutCommand}">
             <Image Source="Resources\custom qmark.png" RenderOptions.BitmapScalingMode="HighQuality" Height="13" Width="13"></Image>
         </Button>
         <TextBlock Style="{StaticResource DarkThemeTextBlock}" HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Current Mod:" VerticalAlignment="Top"/>

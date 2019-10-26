@@ -7,7 +7,6 @@ namespace ModSwitcherLib
         public Mod()
         {
             ModName = null;
-            GamePath = null;
             modType = ModType.File;
             ModPath = null;
             Flag = null;
@@ -17,7 +16,6 @@ namespace ModSwitcherLib
         public Mod(Mod mod)
         {
             ModName = mod.ModName;
-            GamePath = mod.GamePath;
             modType = mod.modType;
             ModPath = mod.ModPath;
             Flag = mod.Flag;
@@ -25,8 +23,6 @@ namespace ModSwitcherLib
         }
 
         public string ModName { get; set; }
-
-        public string GamePath { get; set; }
 
         public ModType modType { get; set; }
 

@@ -22,8 +22,7 @@ namespace ModSwitcherWpf
         {
             InitializeComponent();
 
-            mainViewModel = new MainViewModel();
-            mainViewModel.CloseEvent = new Action(Close);
+            mainViewModel = new MainViewModel(Close);
             DataContext = mainViewModel;
         }
 

@@ -181,17 +181,6 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        private void OpenFileDialog()
-        {
-            OpenFileDialog openFiledialog = new OpenFileDialog();
-            var result = openFiledialog.ShowDialog();
-            if(result == DialogResult.OK)
-            {
-                TheMod.GamePath = openFiledialog.FileName;
-                OnPropertyChanged("TheMod");
-            }
-        }
-
         private void OpenFileFolderDialog()
         {
             switch (TheMod.modType)
@@ -242,14 +231,6 @@ namespace ModSwitcherWpf.ViewModels
             get
             {
                 return new DelegateCommand(Cancel);
-            }
-        }
-
-        public ICommand OpenFileDialogCommand
-        {
-            get
-            {
-                return new DelegateCommand(OpenFileDialog);
             }
         }
 
