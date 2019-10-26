@@ -11,6 +11,7 @@ namespace ModSwitcherWpf.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        #region Constructor
         public MainViewModel()
         {
             CurrentMod = null;
@@ -34,7 +35,9 @@ namespace ModSwitcherWpf.ViewModels
                 } 
             }
         }
+        #endregion
 
+        #region Properties
         public ObservableCollection<Mod> ModList { get; set; }
 
         private Mod _currentMod;
@@ -84,7 +87,9 @@ namespace ModSwitcherWpf.ViewModels
         }
 
         public Action CloseEvent;
-        
+        #endregion
+
+        #region Commands
         private void StartGame()
         {
             string flag = string.Empty;
@@ -177,5 +182,6 @@ namespace ModSwitcherWpf.ViewModels
                 return new DelegateCommand(Remove);
             }
         }
+        #endregion Commands
     }
 }

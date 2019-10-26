@@ -9,8 +9,10 @@ using ModSwitcherLib.Types;
 
 namespace ModSwitcherWpf.ViewModels
 {
+    
     public class AddEditViewModel : ViewModelBase
     {
+        #region Constructors
         public AddEditViewModel()
         {
             TheMod = new Mod();
@@ -31,7 +33,9 @@ namespace ModSwitcherWpf.ViewModels
                     break;
             }
         }
+        #endregion
 
+        #region Properties
         public string WindowName { get; set; }
 
         public MainViewModel Parent { get; set; }
@@ -128,7 +132,9 @@ namespace ModSwitcherWpf.ViewModels
         }
 
         public Action CloseEvent;
+        #endregion
 
+        #region Commands
         private void OK()
         {
             switch (WindowName)
@@ -255,4 +261,5 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
     }
+    #endregion
 }

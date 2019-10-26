@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:ModSwitcherWpf.ViewModels"
         xmlns:local="clr-namespace:ModSwitcherWpf"
         mc:Ignorable="d"
-        Title="ModSwitcher" Height="375.898" Width="300.744" Icon="Resources/AppIcon.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="ModSwitcher" Height="392.698" Width="300.744" Icon="Resources/AppIcon.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
@@ -44,6 +44,12 @@
         </Style>
     </Window.Resources>
     <Grid Background="#1D2027">
+        <Button Style="{StaticResource DarkThemeButton}" HorizontalAlignment="Left" Margin="257,331,0,0" VerticalAlignment="Top" Width="18" Height="18">
+            <Image Source="Resources\custom gear.png" RenderOptions.BitmapScalingMode="HighQuality" Height="18" Width="18"></Image>
+        </Button>
+        <Button Style="{StaticResource DarkThemeButton}" HorizontalAlignment="Left" Margin="234,331,0,0" VerticalAlignment="Top" Width="18" Height="18">
+            <Image Source="Resources\custom qmark.png" RenderOptions.BitmapScalingMode="HighQuality" Height="13" Width="13"></Image>
+        </Button>
         <TextBlock Style="{StaticResource DarkThemeTextBlock}" HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Current Mod:" VerticalAlignment="Top"/>
         <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="90,12,0,0" TextWrapping="NoWrap" Text="{Binding Path=CurrentMod.ModName}" VerticalAlignment="Top" Width="185" IsReadOnly="True"/>
         <ListBox Style="{StaticResource DarkThemeListBox}" Name="listBox" HorizontalAlignment="Left" Height="233" Margin="10,35,0,0" VerticalAlignment="Top" Width="265" ItemsSource="{Binding Path=ModList}" SelectedItem="{Binding Path=SelectedMod}" MouseDoubleClick="ListBox_MouseDoubleClick"  DisplayMemberPath="ModName" />
