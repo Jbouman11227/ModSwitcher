@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
 using ModSwitcherLib.Types;
+using System.Collections.Generic;
 
 namespace ModSwitcherWpf.ViewModels
 {
@@ -18,10 +19,11 @@ namespace ModSwitcherWpf.ViewModels
             TheMod = new Mod();
         }
 
-        public AddEditViewModel(string windowName, string selectedModName)
+        public AddEditViewModel(string windowName, string selectedModName, List<string> versionNames)
         {
             WindowName = windowName;
             SelectedModName = selectedModName;
+            VersionNames = versionNames;
             switch (windowName)
             {
                 case "Add Mod":
@@ -116,6 +118,8 @@ namespace ModSwitcherWpf.ViewModels
                 return !string.IsNullOrEmpty(TheMod.ModName);
             }
         }
+
+        public List<string> VersionNames { get; set; }
 
         public Action CloseEvent, RefreshMainResourcesAction;
         #endregion

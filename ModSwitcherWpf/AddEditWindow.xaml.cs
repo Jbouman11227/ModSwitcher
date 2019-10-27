@@ -3,7 +3,7 @@ using System.Windows;
 using ModSwitcherWpf.ViewModels;
 using System.Collections.ObjectModel;
 using ModSwitcherLib;
-
+using System.Collections.Generic;
 namespace ModSwitcherWpf
 {
     /// <summary>
@@ -13,11 +13,11 @@ namespace ModSwitcherWpf
     {
         public AddEditViewModel addEditViewModel { get; private set; }
 
-        public AddEditWindow(string windowName, string selectedMod)
+        public AddEditWindow(string windowName, string selectedMod, List<string> versionNames)
         {
             InitializeComponent();
 
-            addEditViewModel = new AddEditViewModel(windowName, selectedMod);
+            addEditViewModel = new AddEditViewModel(windowName, selectedMod, versionNames);
             addEditViewModel.CloseEvent = new Action(Close);
             DataContext = addEditViewModel;
         }

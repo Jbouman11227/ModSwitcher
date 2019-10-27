@@ -73,7 +73,7 @@
         <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,181,0,0" TextWrapping="NoWrap" Text="{Binding TheMod.GamePath}" VerticalAlignment="Top" Width="272" VerticalContentAlignment="Top" IsEnabled="{Binding Path=OverrideGamePath}"/>
         <CheckBox Style="{StaticResource DarkThemeCheckBox}" Content="Override Default Game Path:" IsChecked="{Binding Path=OverrideGamePath}" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
         <CheckBox Style="{StaticResource DarkThemeCheckBox}" Content="Set RotWK Version:" IsChecked="{Binding Path=SetRotWKVersion}" HorizontalAlignment="Left" Margin="10,212,0,0" VerticalAlignment="Top"/>
-        <ComboBox  HorizontalAlignment="Left" Margin="123,242,0,0" VerticalAlignment="Top" Width="272" Height="21" IsEnabled="{Binding Path=SetRotWKVersion}"/>
+        <ComboBox  HorizontalAlignment="Left" Margin="123,242,0,0" VerticalAlignment="Top" Width="272" Height="21" ItemsSource="{Binding Path=VersionNames}" SelectedItem="{Binding Path=TheMod.RotWKVersion}" IsEnabled="{Binding Path=SetRotWKVersion}"/>
         <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,181,0,0" VerticalAlignment="Top" Width="31" Height="18" IsEnabled="{Binding Path=OverrideGamePath}" Command="{Binding OpenFileDialogCommand}"/>
     </Grid>
 </Window>

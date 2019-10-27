@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace ModSwitcherWpf.ViewModels
 {
@@ -22,6 +23,7 @@ namespace ModSwitcherWpf.ViewModels
             CurrentModName = null;
             ModNameList = new ObservableCollection<string>();
             SelectedModName = null;
+            VersionNames = null;
             CloseEvent = closeAction;
 
             if (File.Exists("config.xml"))
@@ -50,6 +52,19 @@ namespace ModSwitcherWpf.ViewModels
                 XMLConfig.WriteNewConfig();
                 SetGamePathOrTerminate();
             }
+
+            if (File.Exists("versions.xml"))
+            {
+                try
+                {
+                    VersionNames = XMLVersion.GetVersions();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Failed to load game versions from versions.xml: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            
         }
         #endregion
 
@@ -94,6 +109,8 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
+        public List<string> VersionNames { get; set; }
+
         public bool RemoveSetasCurrentEnabled
         {
             get
@@ -135,6 +152,12 @@ namespace ModSwitcherWpf.ViewModels
 
             try
             {
+                if (CurrentMod.SetRotWKVersion)
+                {
+                    string gameFolder = gamePath.Substring(0, gamePath.Length - "\\lotrbfme2ep1.exe".Length);
+                    XMLVersion.SetVersion(CurrentMod.RotWKVersion, gameFolder);
+                }
+         
                 Process.Start($"\"{gamePath}\"", flag);
                 if (CloseEvent != null)
                 {
@@ -149,7 +172,7 @@ namespace ModSwitcherWpf.ViewModels
 
         private void Add()
         {
-            AddEditWindow addEditWindow = new AddEditWindow("Add Mod", SelectedModName);
+            AddEditWindow addEditWindow = new AddEditWindow("Add Mod", SelectedModName, VersionNames);
             addEditWindow.addEditViewModel.RefreshMainResourcesAction = new Action(RefreshMainResources);
             addEditWindow.ShowDialog();
         }
@@ -162,7 +185,7 @@ namespace ModSwitcherWpf.ViewModels
 
         public void Edit()
         {
-            AddEditWindow addEditWindow = new AddEditWindow("Edit Mod", SelectedModName);
+            AddEditWindow addEditWindow = new AddEditWindow("Edit Mod", SelectedModName, VersionNames);
             addEditWindow.addEditViewModel.RefreshMainResourcesAction = new Action(RefreshMainResources);
             addEditWindow.ShowDialog();
         }
@@ -177,8 +200,8 @@ namespace ModSwitcherWpf.ViewModels
                     CurrentModName = null;
                     OnPropertyChanged("CurrentModName");
                 }
-                ModNameList.Remove(SelectedModName);
                 XMLConfig.RemoveMod(SelectedModName);
+                ModNameList.Remove(SelectedModName);
             }
         }
 
