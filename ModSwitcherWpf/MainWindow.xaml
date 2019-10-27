@@ -51,8 +51,8 @@
             <Image Source="Resources\custom qmark.png" RenderOptions.BitmapScalingMode="HighQuality" Height="13" Width="13"></Image>
         </Button>
         <TextBlock Style="{StaticResource DarkThemeTextBlock}" HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Current Mod:" VerticalAlignment="Top"/>
-        <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="90,12,0,0" TextWrapping="NoWrap" Text="{Binding Path=CurrentMod.ModName}" VerticalAlignment="Top" Width="185" IsReadOnly="True"/>
-        <ListBox Style="{StaticResource DarkThemeListBox}" Name="listBox" HorizontalAlignment="Left" Height="233" Margin="10,35,0,0" VerticalAlignment="Top" Width="265" ItemsSource="{Binding Path=ModList}" SelectedItem="{Binding Path=SelectedMod}" MouseDoubleClick="ListBox_MouseDoubleClick"  DisplayMemberPath="ModName" />
+        <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="90,12,0,0" TextWrapping="NoWrap" Text="{Binding Path=CurrentModName}" VerticalAlignment="Top" Width="185" IsReadOnly="True"/>
+        <ListBox Style="{StaticResource DarkThemeListBox}" Name="listBox" HorizontalAlignment="Left" Height="233" Margin="10,35,0,0" VerticalAlignment="Top" Width="265" ItemsSource="{Binding Path=ModNameList}" SelectedItem="{Binding Path=SelectedModName}" MouseDoubleClick="ListBox_MouseDoubleClick"/>
         <Button Style="{StaticResource DarkThemeButton}" Content="Add" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="85" Command="{Binding AddCommand}" Height="23" />
         <Button Style="{StaticResource DarkThemeButton}" Content="Remove" HorizontalAlignment="Left" Margin="100,273,0,0" VerticalAlignment="Top" Width="85" Command="{Binding RemoveCommand}" IsEnabled="{Binding Path=RemoveSetasCurrentEnabled}" Height="23"/>
         <Button Style="{StaticResource DarkThemeButton}" Content="Set as Current" HorizontalAlignment="Left" Margin="190,273,0,0" VerticalAlignment="Top" Width="85" Command="{Binding SetAsCurrentCommand}" IsEnabled="{Binding Path=RemoveSetasCurrentEnabled}" Height="23"/>

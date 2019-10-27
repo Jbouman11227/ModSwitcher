@@ -18,10 +18,10 @@ namespace ModSwitcherWpf.ViewModels
             TheMod = new Mod();
         }
 
-        public AddEditViewModel(string windowName, MainViewModel parent)
+        public AddEditViewModel(string windowName, string selectedModName)
         {
             WindowName = windowName;
-            Parent = parent;
+            SelectedModName = selectedModName;
             switch (windowName)
             {
                 case "Add Mod":
@@ -29,7 +29,7 @@ namespace ModSwitcherWpf.ViewModels
                     break;
 
                 case "Edit Mod":
-                    TheMod = new Mod(parent.SelectedMod);
+                    TheMod = XMLConfig.ReadMod(selectedModName);
                     break;
             }
         }
@@ -37,8 +37,6 @@ namespace ModSwitcherWpf.ViewModels
 
         #region Properties
         public string WindowName { get; set; }
-
-        public MainViewModel Parent { get; set; }
 
         public Mod TheMod { get; set; }
 
@@ -55,45 +53,7 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public Mod SelectedMod
-        {
-            get
-            {
-                return Parent.SelectedMod;
-            }
-        }
-
-        public int IndexOfSelectedMod 
-        {
-            get
-            {
-                return Parent.ModList.IndexOf(Parent.SelectedMod);
-            }
-        }
-
-        public ObservableCollection<Mod> ModList
-        {
-            get
-            {
-                return Parent.ModList;
-            }
-            set
-            {
-                Parent.ModList = value;
-            }
-        }
-
-        public Mod CurrentMod 
-        {
-            get
-            {
-                return Parent.CurrentMod;
-            }
-            set
-            {
-                Parent.CurrentMod = value;
-            }
-        }
+        public string SelectedModName { get; set; }
 
         public bool UsingModPath
         {
@@ -131,7 +91,7 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public Action CloseEvent;
+        public Action CloseEvent, RefreshMainResourcesAction;
         #endregion
 
         #region Commands
@@ -140,11 +100,14 @@ namespace ModSwitcherWpf.ViewModels
             switch (WindowName)
             {
                 case "Add Mod":
-                
-                    if (!ModList.Where(mod => mod.ModName == TheMod.ModName).Any())
+
+                    if (!XMLConfig.Exists(TheMod.ModName))
                     {
-                        ModList.Add(TheMod);
-                        XMLConfig.WriteXML(ModList, CurrentMod);
+                        XMLConfig.AddMod(TheMod);
+                        if (RefreshMainResourcesAction != null)
+                        {
+                            RefreshMainResourcesAction();
+                        }
                         if (CloseEvent != null)
                         {
                             CloseEvent();
@@ -158,15 +121,20 @@ namespace ModSwitcherWpf.ViewModels
 
                 case "Edit Mod":
 
-                    if(!ModList.Where(mod => mod.ModName == TheMod.ModName && ModList.IndexOf(mod) != IndexOfSelectedMod).Any())
+                    int indexOfSelectedMod = XMLConfig.IndexOf(SelectedModName);
+
+                    if (!XMLConfig.Exists(TheMod.ModName, indexOfSelectedMod))
                     {
-                        if(CurrentMod == SelectedMod)
+                        if(XMLConfig.ReadCurrentModName() == SelectedModName)
                         {
-                            CurrentMod = TheMod;
+                            XMLConfig.SetCurrentModName(TheMod.ModName);
                         }
-                        ModList.Insert(IndexOfSelectedMod, TheMod);
-                        ModList.RemoveAt(IndexOfSelectedMod);
-                        XMLConfig.WriteXML(ModList, CurrentMod);
+                        XMLConfig.EditMod(TheMod, SelectedModName);
+
+                        if (RefreshMainResourcesAction != null)
+                        {
+                            RefreshMainResourcesAction();
+                        }
                         if (CloseEvent != null)
                         {
                             CloseEvent();

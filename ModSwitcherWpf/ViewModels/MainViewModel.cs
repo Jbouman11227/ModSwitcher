@@ -19,9 +19,9 @@ namespace ModSwitcherWpf.ViewModels
         
         public MainViewModel(Action closeAction)
         {
-            CurrentMod = null;
-            ModList = new ObservableCollection<Mod>();
-            SelectedMod = null;
+            CurrentModName = null;
+            ModNameList = new ObservableCollection<string>();
+            SelectedModName = null;
             CloseEvent = closeAction;
 
             if (File.Exists("config.xml"))
@@ -29,8 +29,8 @@ namespace ModSwitcherWpf.ViewModels
                 try
                 {
                     string currentModName = null;
-                    XMLConfig.ReadXML(ModList, ref currentModName);
-                    CurrentMod = ModList.Where(mod => mod.ModName == currentModName).FirstOrDefault();
+                    XMLConfig.ReadXML(ModNameList, ref currentModName);
+                    CurrentModName = currentModName;
                     if (string.IsNullOrEmpty(XMLConfig.ReadGamePath()))
                     {
                         SetGamePathOrTerminate();
@@ -56,32 +56,32 @@ namespace ModSwitcherWpf.ViewModels
         #region Properties
         public ObservableCollection<string> ModNameList { get; set; }
 
-        private Mod _currentMod;
+        private string _currentModName;
 
-        public Mod CurrentMod
+        public string CurrentModName
         {
             get
             {
-                return _currentMod;
+                return _currentModName;
             }
             set
             {
-                _currentMod = value;
-                OnPropertyChanged("CurrentMod");
+                _currentModName = value;
+                OnPropertyChanged("CurrentModName");
                 OnPropertyChanged("StartGameEnabled");
             }
         }
 
-        private Mod _selectedMod;
-        public Mod SelectedMod
+        private string _selectedModName;
+        public string SelectedModName
         {
             get
             {
-                return _selectedMod;
+                return _selectedModName;
             }
             set
             {
-                _selectedMod = value;
+                _selectedModName = value;
                 OnPropertyChanged("RemoveSetasCurrentEnabled");
             }
         }
@@ -90,7 +90,7 @@ namespace ModSwitcherWpf.ViewModels
         {
             get
             {
-                return CurrentMod != null;
+                return !string.IsNullOrEmpty(CurrentModName);
             }
         }
 
@@ -98,7 +98,7 @@ namespace ModSwitcherWpf.ViewModels
         {
             get
             {
-                return SelectedMod != null;
+                return !string.IsNullOrEmpty(SelectedModName);
             }
         }
 
@@ -109,6 +109,8 @@ namespace ModSwitcherWpf.ViewModels
         private void StartGame()
         {
             string gamePath = XMLConfig.ReadGamePath();
+            Mod CurrentMod = XMLConfig.ReadMod(CurrentModName);
+
             string flag = string.Empty;
             if (CurrentMod.UsingModPath)
             {
@@ -137,34 +139,36 @@ namespace ModSwitcherWpf.ViewModels
 
         private void Add()
         {
-            AddEditWindow addEditWindow = new AddEditWindow("Add Mod", this);
+            AddEditWindow addEditWindow = new AddEditWindow("Add Mod", SelectedModName);
+            addEditWindow.addEditViewModel.RefreshMainResourcesAction = new Action(RefreshMainResources);
             addEditWindow.ShowDialog();
         }
 
         private void SetAsCurrent()
         {
-            CurrentMod = SelectedMod;
-            XMLConfig.WriteXML(ModList, CurrentMod);
+            CurrentModName = SelectedModName;
+            XMLConfig.SetCurrentModName(SelectedModName);
         }
 
         public void Edit()
         {
-            AddEditWindow addEditWindow = new AddEditWindow("Edit Mod", this);
+            AddEditWindow addEditWindow = new AddEditWindow("Edit Mod", SelectedModName);
+            addEditWindow.addEditViewModel.RefreshMainResourcesAction = new Action(RefreshMainResources);
             addEditWindow.ShowDialog();
         }
 
         private void Remove()
         {
-            var result = MessageBox.Show($"Are you sure you want to delete {SelectedMod.ModName}?", "Delete Mod", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var result = MessageBox.Show($"Are you sure you want to delete {SelectedModName}?", "Delete Mod", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                if (CurrentMod == SelectedMod)
+                if (CurrentModName == SelectedModName)
                 {
-                    CurrentMod = null;
-                    OnPropertyChanged("CurrentMod");
+                    CurrentModName = null;
+                    OnPropertyChanged("CurrentModName");
                 }
-                ModList.Remove(SelectedMod);
-                XMLConfig.WriteXML(ModList, CurrentMod);
+                ModNameList.Remove(SelectedModName);
+                XMLConfig.RemoveMod(SelectedModName);
             }
         }
 
@@ -235,6 +239,13 @@ namespace ModSwitcherWpf.ViewModels
             {
                 CloseEvent();
             }
+        }
+
+        private void RefreshMainResources()
+        {
+            ModNameList.Clear(); string currentModName = null;
+            XMLConfig.ReadXML(ModNameList, ref currentModName);
+            CurrentModName = currentModName;
         }
     }
 }
