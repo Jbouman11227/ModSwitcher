@@ -107,9 +107,18 @@ namespace ModSwitcherWpf.ViewModels
 
         #region Commands
         private void StartGame()
-        {
-            string gamePath = XMLConfig.ReadGamePath();
+        {   
             Mod CurrentMod = XMLConfig.ReadMod(CurrentModName);
+
+            string gamePath;
+            if (CurrentMod.OverrideGamePath)
+            {
+                gamePath = CurrentMod.GamePath;
+            }
+            else
+            {
+                gamePath = XMLConfig.ReadGamePath();
+            }
 
             string flag = string.Empty;
             if (CurrentMod.UsingModPath)
@@ -123,6 +132,7 @@ namespace ModSwitcherWpf.ViewModels
             {
                 flag = CurrentMod.Flag;
             }
+
             try
             {
                 Process.Start($"\"{gamePath}\"", flag);
@@ -243,7 +253,7 @@ namespace ModSwitcherWpf.ViewModels
 
         private void RefreshMainResources()
         {
-            ModNameList.Clear(); string currentModName = null;
+            string currentModName = null;
             XMLConfig.ReadXML(ModNameList, ref currentModName);
             CurrentModName = currentModName;
         }

@@ -9,7 +9,7 @@ using ModSwitcherLib.Types;
 
 namespace ModSwitcherWpf.ViewModels
 {
-    
+
     public class AddEditViewModel : ViewModelBase
     {
         #region Constructors
@@ -80,6 +80,32 @@ namespace ModSwitcherWpf.ViewModels
                 TheMod.UsingModPath = !value;
                 OnPropertyChanged("UsingModPath");
                 OnPropertyChanged("UsingFlag");
+            }
+        }
+
+        public bool OverrideGamePath
+        {
+            get
+            {
+                return TheMod.OverrideGamePath;
+            }
+            set
+            {
+                TheMod.OverrideGamePath = value;
+                OnPropertyChanged("OverrideGamePath");
+            }
+        }
+
+        public bool SetRotWKVersion
+        {
+            get
+            {
+                return TheMod.SetRotWKVersion;
+            }
+            set
+            {
+                TheMod.SetRotWKVersion = value;
+                OnPropertyChanged("SetRotWKVersion");
             }
         }
 
@@ -178,6 +204,17 @@ namespace ModSwitcherWpf.ViewModels
 
         }
 
+        private void OpenFileDialog()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                TheMod.GamePath = openFileDialog.FileName;
+                OnPropertyChanged("TheMod");
+            }
+        }
+
         private void Cancel()
         {
             if (CloseEvent != null)
@@ -209,6 +246,14 @@ namespace ModSwitcherWpf.ViewModels
                 return new DelegateCommand(OpenFileFolderDialog);
             }
         }
+
+        public ICommand OpenFileDialogCommand
+        {
+            get
+            {
+                return new DelegateCommand(OpenFileDialog);
+            }
+        }
+        #endregion
     }
-    #endregion
 }

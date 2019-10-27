@@ -31,5 +31,13 @@ namespace ModSwitcherLib
         public string Flag { get; set; }
 
         public bool UsingModPath { get; set; }
+
+        public bool OverrideGamePath { get; set; }
+
+        public string GamePath { get; set; }
+
+        public bool SetRotWKVersion { get; set; }
+
+        public string RotWKVersion { get; set; }
     }
 }

@@ -9,7 +9,7 @@
         xmlns:local="clr-namespace:ModSwitcherWpf"
         xmlns:converters="clr-namespace:ModSwitcherWpf.Converters"
         mc:Ignorable="d"
-        Title="{Binding Path=WindowName}" Height="222.115" Width="457.102" Icon="Resources/AppIcon.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="{Binding Path=WindowName}" Height="346.115" Width="457.102" Icon="Resources/AppIcon.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ObjectDataProvider x:Key="ModTypes" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -41,6 +41,9 @@
         <Style x:Key="DarkThemeRadioButton" TargetType="{x:Type RadioButton}">
             <Setter Property="Foreground" Value="#A9ADB8"/>
         </Style>
+        <Style x:Key="DarkThemeCheckBox" TargetType="{x:Type CheckBox}">
+            <Setter Property="Foreground" Value="#A9ADB8"/>
+        </Style>
         <Style x:Key="DarkThemeTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="Foreground" Value="#A9ADB8"/>
             <Setter Property="Background" Value="#2C303B"/>
@@ -65,7 +68,12 @@
         <RadioButton Style="{StaticResource DarkThemeRadioButton}" Content="Mod Path:" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=UsingModPath}"/>
         <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,119,0,0" TextWrapping="NoWrap" Text="{Binding Path=TheMod.Flag}" VerticalAlignment="Top" Width="272" IsEnabled="{Binding Path=UsingFlag}"/>
         <RadioButton Style="{StaticResource DarkThemeRadioButton}" Content="Flag:" HorizontalAlignment="Left" Margin="10,119,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=UsingFlag}"/>
-        <Button Style="{StaticResource DarkThemeButton}" Content="OK" HorizontalAlignment="Left" Margin="276,149,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OKCommand}" Height="23" IsEnabled="{Binding Path=OKEnabled}" IsDefault="True"/>
-        <Button Style="{StaticResource DarkThemeButton}" Content="Cancel" HorizontalAlignment="Left" Margin="356,149,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CancelCommand}" Height="23"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="OK" HorizontalAlignment="Left" Margin="276,273,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OKCommand}" Height="23" IsEnabled="{Binding Path=OKEnabled}" IsDefault="True"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="Cancel" HorizontalAlignment="Left" Margin="356,273,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CancelCommand}" Height="23"/>
+        <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,181,0,0" TextWrapping="NoWrap" Text="{Binding TheMod.GamePath}" VerticalAlignment="Top" Width="272" VerticalContentAlignment="Top" IsEnabled="{Binding Path=OverrideGamePath}"/>
+        <CheckBox Style="{StaticResource DarkThemeCheckBox}" Content="Override Default Game Path:" IsChecked="{Binding Path=OverrideGamePath}" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
+        <CheckBox Style="{StaticResource DarkThemeCheckBox}" Content="Set RotWK Version:" IsChecked="{Binding Path=SetRotWKVersion}" HorizontalAlignment="Left" Margin="10,212,0,0" VerticalAlignment="Top"/>
+        <ComboBox  HorizontalAlignment="Left" Margin="123,242,0,0" VerticalAlignment="Top" Width="272" Height="21" IsEnabled="{Binding Path=SetRotWKVersion}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,181,0,0" VerticalAlignment="Top" Width="31" Height="18" IsEnabled="{Binding Path=OverrideGamePath}" Command="{Binding OpenFileDialogCommand}"/>
     </Grid>
 </Window>
