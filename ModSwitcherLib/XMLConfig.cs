@@ -113,8 +113,8 @@ namespace ModSwitcherLib
             childNode.AppendChild(Node("UsingModPath", Convert.ToString(mod.UsingModPath), xmlDoc));
             childNode.AppendChild(Node("OverrideGamePath", Convert.ToString(mod.OverrideGamePath), xmlDoc));
             childNode.AppendChild(Node("GamePath", mod.GamePath, xmlDoc));
-            childNode.AppendChild(Node("SetRotWKVersion", Convert.ToString(mod.SetRotWKVersion), xmlDoc));
-            childNode.AppendChild(Node("RotWKVersion", mod.RotWKVersion, xmlDoc));
+            childNode.AppendChild(Node("SetVersion", Convert.ToString(mod.SetVersion), xmlDoc));
+            childNode.AppendChild(Node("Version", mod.Version, xmlDoc));
 
             xmlDoc.Save("config.xml");
         }
@@ -133,8 +133,8 @@ namespace ModSwitcherLib
             modNode.ChildNodes[4].InnerText = Convert.ToString(mod.UsingModPath);
             modNode.ChildNodes[5].InnerText = Convert.ToString(mod.OverrideGamePath);
             modNode.ChildNodes[6].InnerText = mod.GamePath;
-            modNode.ChildNodes[7].InnerText = Convert.ToString(mod.SetRotWKVersion);
-            modNode.ChildNodes[8].InnerText = mod.RotWKVersion;
+            modNode.ChildNodes[7].InnerText = Convert.ToString(mod.SetVersion);
+            modNode.ChildNodes[8].InnerText = mod.Version;
 
             xmlDoc.Save("config.xml");
         }
@@ -225,8 +225,8 @@ namespace ModSwitcherLib
             mod.UsingModPath = Convert.ToBoolean(node.ChildNodes[4].InnerText);
             mod.OverrideGamePath = Convert.ToBoolean(node.ChildNodes[5].InnerText);
             mod.GamePath = node.ChildNodes[6].InnerText;
-            mod.SetRotWKVersion = Convert.ToBoolean(node.ChildNodes[7].InnerText);
-            mod.RotWKVersion = node.ChildNodes[8].InnerText;
+            mod.SetVersion = Convert.ToBoolean(node.ChildNodes[7].InnerText);
+            mod.Version = node.ChildNodes[8].InnerText;
 
             return mod;
         }

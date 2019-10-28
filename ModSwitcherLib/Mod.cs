@@ -11,15 +11,10 @@ namespace ModSwitcherLib
             ModPath = null;
             Flag = null;
             UsingModPath = true;
-        }
-
-        public Mod(Mod mod)
-        {
-            ModName = mod.ModName;
-            modType = mod.modType;
-            ModPath = mod.ModPath;
-            Flag = mod.Flag;
-            UsingModPath = mod.UsingModPath;
+            OverrideGamePath = false;
+            GamePath = null;
+            SetVersion = false;
+            Version = null;
         }
 
         public string ModName { get; set; }
@@ -36,8 +31,8 @@ namespace ModSwitcherLib
 
         public string GamePath { get; set; }
 
-        public bool SetRotWKVersion { get; set; }
+        public bool SetVersion { get; set; }
 
-        public string RotWKVersion { get; set; }
+        public string Version { get; set; }
     }
 }

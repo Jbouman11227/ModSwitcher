@@ -36,6 +36,10 @@ namespace ModSwitcherLib
             xmlDoc.Load("versions.xml");
 
             XmlNode versionNode = GetVersion(versionName, xmlDoc);
+            if(versionNode == null)
+            {
+                throw new Exception($"versions.xml contains no version called {versionName}.");
+            }
 
             foreach (XmlNode fileChangeNode in versionNode.ChildNodes)
             {

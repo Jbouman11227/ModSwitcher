@@ -11,6 +11,7 @@ namespace ModSwitcherWpf.ViewModels
 {
     public class GamePathViewModel : ViewModelBase
     {
+        #region Constructors
         public GamePathViewModel()
         {
 
@@ -28,7 +29,9 @@ namespace ModSwitcherWpf.ViewModels
             }
             ClickedOK = false;
         }
+        #endregion
 
+        #region Properties
         public Action CloseAction;
 
         private string _gamePath;
@@ -56,7 +59,9 @@ namespace ModSwitcherWpf.ViewModels
         }
 
         public bool ClickedOK { get; set; }
+        #endregion
 
+        #region Commands
         private void OpenFileDialog()
         {
             OpenFileDialog openFiledialog = new OpenFileDialog();
@@ -92,5 +97,6 @@ namespace ModSwitcherWpf.ViewModels
                 return new DelegateCommand(OK);
             }
         }
+        #endregion
     }
 }

@@ -24,7 +24,7 @@ namespace ModSwitcherWpf.ViewModels
             ModNameList = new ObservableCollection<string>();
             SelectedModName = null;
             VersionNames = null;
-            CloseEvent = closeAction;
+            CloseAction = closeAction;
 
             if (File.Exists("config.xml"))
             {
@@ -40,10 +40,11 @@ namespace ModSwitcherWpf.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"Failed to load the configuration from config.xml: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    if (CloseEvent != null)
+                    MessageBox.Show($"Failed to load the configuration from config.xml: {e.Message}" + (e.Message.EndsWith(".") ? string.Empty : ".")
+                                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (CloseAction != null)
                     {
-                        CloseEvent();
+                        CloseAction();
                     }
                 }
             }
@@ -61,7 +62,8 @@ namespace ModSwitcherWpf.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"Failed to load game versions from versions.xml: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Failed to load game versions from versions.xml: {e.Message}" + (e.Message.EndsWith(".") ? string.Empty : ".")
+                                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             
@@ -119,7 +121,7 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public Action CloseEvent;
+        public Action CloseAction;
         #endregion
 
         #region Commands
@@ -152,21 +154,22 @@ namespace ModSwitcherWpf.ViewModels
 
             try
             {
-                if (CurrentMod.SetRotWKVersion)
+                if (CurrentMod.SetVersion)
                 {
                     string gameFolder = gamePath.Substring(0, gamePath.Length - "\\lotrbfme2ep1.exe".Length);
-                    XMLVersion.SetVersion(CurrentMod.RotWKVersion, gameFolder);
+                    XMLVersion.SetVersion(CurrentMod.Version, gameFolder);
                 }
          
                 Process.Start($"\"{gamePath}\"", flag);
-                if (CloseEvent != null)
+                if (CloseAction != null)
                 {
-                    CloseEvent();
+                    CloseAction();
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Failed to start {CurrentMod.ModName}: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Failed to start {CurrentMod.ModName}: {e.Message}" + (e.Message.EndsWith(".") ? string.Empty : ".")
+                                , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -207,7 +210,8 @@ namespace ModSwitcherWpf.ViewModels
 
         private void About()
         {
-
+            var aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
 
         private void Settings()
@@ -265,12 +269,13 @@ namespace ModSwitcherWpf.ViewModels
         }
         #endregion Commands
 
+        #region Methods
         private void SetGamePathOrTerminate()
         {
             bool clickedOK = (new GamePathWindow(true)).ShowDialogResult();
-            if (!clickedOK)
+            if (!clickedOK && CloseAction != null)
             {
-                CloseEvent();
+                CloseAction();
             }
         }
 
@@ -280,5 +285,6 @@ namespace ModSwitcherWpf.ViewModels
             XMLConfig.ReadXML(ModNameList, ref currentModName);
             CurrentModName = currentModName;
         }
+        #endregion
     }
 }

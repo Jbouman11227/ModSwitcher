@@ -98,16 +98,16 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public bool SetRotWKVersion
+        public bool SetVersion
         {
             get
             {
-                return TheMod.SetRotWKVersion;
+                return TheMod.SetVersion;
             }
             set
             {
-                TheMod.SetRotWKVersion = value;
-                OnPropertyChanged("SetRotWKVersion");
+                TheMod.SetVersion = value;
+                OnPropertyChanged("SetVersion");
             }
         }
 
@@ -121,7 +121,7 @@ namespace ModSwitcherWpf.ViewModels
 
         public List<string> VersionNames { get; set; }
 
-        public Action CloseEvent, RefreshMainResourcesAction;
+        public Action CloseAction, RefreshMainResourcesAction;
         #endregion
 
         #region Commands
@@ -138,9 +138,9 @@ namespace ModSwitcherWpf.ViewModels
                         {
                             RefreshMainResourcesAction();
                         }
-                        if (CloseEvent != null)
+                        if (CloseAction != null)
                         {
-                            CloseEvent();
+                            CloseAction();
                         }
                     }
                     else
@@ -165,9 +165,9 @@ namespace ModSwitcherWpf.ViewModels
                         {
                             RefreshMainResourcesAction();
                         }
-                        if (CloseEvent != null)
+                        if (CloseAction != null)
                         {
-                            CloseEvent();
+                            CloseAction();
                         }
                     }
                     else
@@ -221,9 +221,9 @@ namespace ModSwitcherWpf.ViewModels
 
         private void Cancel()
         {
-            if (CloseEvent != null)
+            if (CloseAction != null)
             {
-                CloseEvent();
+                CloseAction();
             }
         }
 

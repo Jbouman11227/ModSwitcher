@@ -18,7 +18,7 @@ namespace ModSwitcherWpf
             InitializeComponent();
 
             addEditViewModel = new AddEditViewModel(windowName, selectedMod, versionNames);
-            addEditViewModel.CloseEvent = new Action(Close);
+            addEditViewModel.CloseAction = new Action(Close);
             DataContext = addEditViewModel;
         }
     }
