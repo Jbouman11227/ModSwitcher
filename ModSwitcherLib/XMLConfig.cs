@@ -80,7 +80,13 @@ namespace ModSwitcherLib
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
+            
             XmlNode currentModNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
+
+            if(currentModNameNode == null)
+            {
+                throw new Exception("could not find the node //ModSwitcherConfig/CurrentMod/ModName.");
+            }
 
             currentModNameNode.InnerText = currentModName;
 
@@ -198,7 +204,8 @@ namespace ModSwitcherLib
                     return modNode;
                 }
             }
-            return null;
+
+            throw new Exception($"could not find {modName}.");
         }
 
         private static XmlNode Node(string nodeName, string value, XmlDocument xmlDoc)

@@ -17,17 +17,21 @@ namespace ModSwitcherWpf.ViewModels
 
         }
 
-        public GamePathViewModel(bool firstTime)
+        public GamePathViewModel(Action closeAction)
         {
-            if (firstTime)
-            {
-                GamePath = null;
-            }
-            else
+            GamePath = null;
+            ClickedOK = false;
+            CloseAction = closeAction;
+
+            try
             {
                 GamePath = XMLConfig.ReadGamePath();
             }
-            ClickedOK = false;
+            catch(Exception e)
+            {
+                MessageBox.Show($"Failed to load default game path: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CloseAction?.Invoke();
+            }
         }
         #endregion
 
@@ -75,11 +79,20 @@ namespace ModSwitcherWpf.ViewModels
         private void OK()
         {
             ClickedOK = true;
-            XMLConfig.SetGamePath(GamePath);
-            if(CloseAction != null)
+
+            try
             {
-                CloseAction();
+                XMLConfig.SetGamePath(GamePath);
             }
+            catch(Exception e)
+            {
+                MessageBox.Show($"Failed to set default game path: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GamePath = null;
+                ClickedOK = false;
+                return;
+            }
+
+            CloseAction?.Invoke();
         }
 
         public ICommand OpenFileDialogCommand

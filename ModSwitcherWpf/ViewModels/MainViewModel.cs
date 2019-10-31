@@ -26,32 +26,29 @@ namespace ModSwitcherWpf.ViewModels
             VersionNames = null;
             CloseAction = closeAction;
 
-            if (File.Exists("config.xml"))
+            try
             {
-                try
+                if (!File.Exists("config.xml"))
                 {
-                    string currentModName = null;
-                    XMLConfig.ReadXML(ModNameList, ref currentModName);
-                    CurrentModName = currentModName;
-                    if (string.IsNullOrEmpty(XMLConfig.ReadGamePath()))
-                    {
-                        SetGamePathOrTerminate();
-                    }
+                    XMLConfig.WriteNewConfig();
                 }
-                catch (Exception e)
+                string currentModName = null;
+                XMLConfig.ReadXML(ModNameList, ref currentModName);
+                CurrentModName = currentModName;
+                if (string.IsNullOrEmpty(XMLConfig.ReadGamePath()))
                 {
-                    MessageBox.Show($"Failed to load the configuration from config.xml: {e.Message}" + (e.Message.EndsWith(".") ? string.Empty : ".")
-                                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    if (CloseAction != null)
+                    bool clickedOK = (new GamePathWindow()).ShowDialogResult();
+                    if (!clickedOK && CloseAction != null)
                     {
                         CloseAction();
                     }
                 }
             }
-            else
+            catch (Exception e)
             {
-                XMLConfig.WriteNewConfig();
-                SetGamePathOrTerminate();
+                MessageBox.Show($"Failed to create or load the configuration: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CloseAction?.Invoke();
+                return;
             }
 
             if (File.Exists("versions.xml"))
@@ -62,11 +59,9 @@ namespace ModSwitcherWpf.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"Failed to load game versions from versions.xml: {e.Message}" + (e.Message.EndsWith(".") ? string.Empty : ".")
-                                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Failed to load game versions: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            
         }
         #endregion
 
@@ -126,34 +121,34 @@ namespace ModSwitcherWpf.ViewModels
 
         #region Commands
         private void StartGame()
-        {   
-            Mod CurrentMod = XMLConfig.ReadMod(CurrentModName);
+        {
+            Mod CurrentMod = null;
+            try 
+            { 
+                CurrentMod = XMLConfig.ReadMod(CurrentModName);
 
-            string gamePath;
-            if (CurrentMod.OverrideGamePath)
-            {
-                gamePath = CurrentMod.GamePath;
-            }
-            else
-            {
-                gamePath = XMLConfig.ReadGamePath();
-            }
-
-            string flag = string.Empty;
-            if (CurrentMod.UsingModPath)
-            {
-                if (!string.IsNullOrEmpty(CurrentMod.ModPath))
+                string gamePath;
+                if (CurrentMod.OverrideGamePath)
                 {
-                    flag = $"-mod \"{CurrentMod.ModPath}\"";
+                    gamePath = CurrentMod.GamePath;
                 }
-            }
-            else
-            {
-                flag = CurrentMod.Flag;
-            }
+                else
+                {
+                    gamePath = XMLConfig.ReadGamePath();
+                }
 
-            try
-            {
+                string flag = string.Empty;
+                if (CurrentMod.UsingModPath)
+                {
+                    if (!string.IsNullOrEmpty(CurrentMod.ModPath))
+                    {
+                        flag = $"-mod \"{CurrentMod.ModPath}\"";
+                    }
+                }
+                else
+                {
+                    flag = CurrentMod.Flag;
+                }
                 if (CurrentMod.SetVersion)
                 {
                     string gameFolder = gamePath.Substring(0, gamePath.Length - "\\lotrbfme2ep1.exe".Length);
@@ -161,15 +156,11 @@ namespace ModSwitcherWpf.ViewModels
                 }
          
                 Process.Start($"\"{gamePath}\"", flag);
-                if (CloseAction != null)
-                {
-                    CloseAction();
-                }
+                CloseAction?.Invoke();
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Failed to start {CurrentMod.ModName}: {e.Message}" + (e.Message.EndsWith(".") ? string.Empty : ".")
-                                , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Failed to start the current mod: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -183,7 +174,14 @@ namespace ModSwitcherWpf.ViewModels
         private void SetAsCurrent()
         {
             CurrentModName = SelectedModName;
-            XMLConfig.SetCurrentModName(SelectedModName);
+            try
+            {
+                XMLConfig.SetCurrentModName(SelectedModName);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show($"Failed to set current mod: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void Edit()
@@ -203,8 +201,15 @@ namespace ModSwitcherWpf.ViewModels
                     CurrentModName = null;
                     OnPropertyChanged("CurrentModName");
                 }
-                XMLConfig.RemoveMod(SelectedModName);
-                ModNameList.Remove(SelectedModName);
+                try
+                {
+                    XMLConfig.RemoveMod(SelectedModName);
+                    ModNameList.Remove(SelectedModName);
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show($"Failed to delete mod: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -216,7 +221,7 @@ namespace ModSwitcherWpf.ViewModels
 
         private void Settings()
         {
-            var gamePathWindow = new GamePathWindow(false);
+            var gamePathWindow = new GamePathWindow();
             gamePathWindow.ShowDialog();
         }
 
@@ -270,15 +275,6 @@ namespace ModSwitcherWpf.ViewModels
         #endregion Commands
 
         #region Methods
-        private void SetGamePathOrTerminate()
-        {
-            bool clickedOK = (new GamePathWindow(true)).ShowDialogResult();
-            if (!clickedOK && CloseAction != null)
-            {
-                CloseAction();
-            }
-        }
-
         private void RefreshMainResources()
         {
             string currentModName = null;

@@ -22,13 +22,11 @@ namespace ModSwitcherWpf
     {
         public GamePathViewModel gamePathViewModel { get; private set; }
 
-        public GamePathWindow(bool firstTime)
+        public GamePathWindow()
         {
             InitializeComponent();
 
-            gamePathViewModel = new GamePathViewModel(firstTime);
-            gamePathViewModel.CloseAction = new Action(Close);
-
+            gamePathViewModel = new GamePathViewModel(Close);
             DataContext = gamePathViewModel;
         }
 

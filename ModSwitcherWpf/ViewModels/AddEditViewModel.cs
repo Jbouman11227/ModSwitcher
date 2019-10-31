@@ -19,11 +19,13 @@ namespace ModSwitcherWpf.ViewModels
             TheMod = new Mod();
         }
 
-        public AddEditViewModel(string windowName, string selectedModName, List<string> versionNames)
+        public AddEditViewModel(string windowName, string selectedModName
+                                , List<string> versionNames, Action closeAction)
         {
             WindowName = windowName;
             SelectedModName = selectedModName;
             VersionNames = versionNames;
+            CloseAction = closeAction;
             switch (windowName)
             {
                 case "Add Mod":
@@ -31,7 +33,15 @@ namespace ModSwitcherWpf.ViewModels
                     break;
 
                 case "Edit Mod":
-                    TheMod = XMLConfig.ReadMod(selectedModName);
+                    try
+                    {
+                        TheMod = XMLConfig.ReadMod(selectedModName);
+                    }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show($"Failed to load mod: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CloseAction?.Invoke();
+                    }
                     break;
             }
         }
@@ -131,48 +141,50 @@ namespace ModSwitcherWpf.ViewModels
             {
                 case "Add Mod":
 
-                    if (!XMLConfig.Exists(TheMod.ModName))
+                    try
                     {
-                        XMLConfig.AddMod(TheMod);
-                        if (RefreshMainResourcesAction != null)
+                        if (!XMLConfig.Exists(TheMod.ModName))
                         {
-                            RefreshMainResourcesAction();
+                            XMLConfig.AddMod(TheMod);
+                            RefreshMainResourcesAction?.Invoke();
+                            CloseAction?.Invoke();
                         }
-                        if (CloseAction != null)
+                        else
                         {
-                            CloseAction();
+                            MessageBox.Show($"There already exists a mod called {TheMod.ModName}!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                    else
+                    catch(Exception e)
                     {
-                        MessageBox.Show($"There already exists a mod called {TheMod.ModName}!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Failed to add mod: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     break;
 
                 case "Edit Mod":
 
-                    int indexOfSelectedMod = XMLConfig.IndexOf(SelectedModName);
-
-                    if (!XMLConfig.Exists(TheMod.ModName, indexOfSelectedMod))
+                    try
                     {
-                        if(XMLConfig.ReadCurrentModName() == SelectedModName)
-                        {
-                            XMLConfig.SetCurrentModName(TheMod.ModName);
-                        }
-                        XMLConfig.EditMod(TheMod, SelectedModName);
+                        int indexOfSelectedMod = XMLConfig.IndexOf(SelectedModName);
 
-                        if (RefreshMainResourcesAction != null)
+                        if (!XMLConfig.Exists(TheMod.ModName, indexOfSelectedMod))
                         {
-                            RefreshMainResourcesAction();
+                            if (XMLConfig.ReadCurrentModName() == SelectedModName)
+                            {
+                                XMLConfig.SetCurrentModName(TheMod.ModName);
+                            }
+                            XMLConfig.EditMod(TheMod, SelectedModName);
+
+                            RefreshMainResourcesAction?.Invoke();
+                            CloseAction?.Invoke();
                         }
-                        if (CloseAction != null)
+                        else
                         {
-                            CloseAction();
+                            MessageBox.Show($"There already exists a mod called {TheMod.ModName}!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                    else
+                    catch(Exception e)
                     {
-                        MessageBox.Show($"There already exists a mod called {TheMod.ModName}!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Failed to edit mod: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     break;
 
@@ -221,10 +233,7 @@ namespace ModSwitcherWpf.ViewModels
 
         private void Cancel()
         {
-            if (CloseAction != null)
-            {
-                CloseAction();
-            }
+            CloseAction?.Invoke();
         }
 
         public ICommand OKCommand
