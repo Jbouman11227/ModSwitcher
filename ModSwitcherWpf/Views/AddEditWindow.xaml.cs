@@ -1,10 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using ModSwitcherWpf.ViewModels;
-using System.Collections.ObjectModel;
-using ModSwitcherLib;
 using System.Collections.Generic;
-namespace ModSwitcherWpf
+
+namespace ModSwitcherWpf.Views
 {
     /// <summary>
     /// Interaction logic for AddEditWindow.xaml

@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System;
-using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
-using System.Collections.ObjectModel;
-using ModSwitcherLib;
-using ModSwitcherLib.Types;
-using System.Linq;
 using System.IO;
 
 namespace ModSwitcherLib

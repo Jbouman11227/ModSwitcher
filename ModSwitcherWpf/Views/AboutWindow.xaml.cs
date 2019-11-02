@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Navigation;
 
-namespace ModSwitcherWpf
+namespace ModSwitcherWpf.Views
 {
     /// <summary>
     /// Interaction logic for AboutWindow.xaml

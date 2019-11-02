@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ModSwitcherWpf.ViewModels
+namespace ModSwitcherWpf
 {
     public class DelegateCommand : ICommand
     {

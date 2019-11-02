@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using ModSwitcherLib;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
-using ModSwitcherLib.Types;
 
 namespace ModSwitcherWpf.ViewModels
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using ModSwitcherLib;
+using ModSwitcherWpf.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Forms;
 using System.IO;
-using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 

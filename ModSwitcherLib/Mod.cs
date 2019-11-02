@@ -1,6 +1,4 @@
-﻿using ModSwitcherLib.Types;
-
-namespace ModSwitcherLib
+﻿namespace ModSwitcherLib
 {
     public class Mod
     {

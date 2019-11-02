@@ -1,4 +1,4 @@
-﻿<Window x:Class="ModSwitcherWpf.AddEditWindow"
+﻿<Window x:Class="ModSwitcherWpf.Views.AddEditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,10 +6,10 @@
         xmlns:vm="clr-namespace:ModSwitcherWpf.ViewModels"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:Types="clr-namespace:ModSwitcherLib.Types;assembly=ModSwitcherLib"
-        xmlns:local="clr-namespace:ModSwitcherWpf"
+        xmlns:local="clr-namespace:ModSwitcherWpf.Views"
         xmlns:converters="clr-namespace:ModSwitcherWpf.Converters"
         mc:Ignorable="d"
-        Title="{Binding Path=WindowName}" Height="346.115" Width="457.102" Icon="Resources/AppIcon.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="{Binding Path=WindowName}" Height="346.115" Width="457.102" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ObjectDataProvider x:Key="ModTypes" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
