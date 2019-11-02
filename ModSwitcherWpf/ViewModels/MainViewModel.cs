@@ -196,13 +196,14 @@ namespace ModSwitcherWpf.ViewModels
             var result = MessageBox.Show($"Are you sure you want to delete {SelectedModName}?", "Delete Mod", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                if (CurrentModName == SelectedModName)
-                {
-                    CurrentModName = null;
-                    OnPropertyChanged("CurrentModName");
-                }
                 try
                 {
+                    if (CurrentModName == SelectedModName)
+                    {
+                        XMLConfig.SetCurrentModName(null);
+                        CurrentModName = null;
+                        OnPropertyChanged("CurrentModName");
+                    }
                     XMLConfig.RemoveMod(SelectedModName);
                     ModNameList.Remove(SelectedModName);
                 }
