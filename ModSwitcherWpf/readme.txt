@@ -46,3 +46,9 @@ switcher.
 
 If you have any questions about the ModSwitcher or found any bugs, you can message me on discord or let me know on one of my streams (see
 https://www.twitch.tv/wizardking11228).
+
+-----CHANGELOG-----------------------
+
+version 1.1:
+
+- Added file dialog titles and filters: a .big file filter for the modpath and a .exe file filter for the gamepath.
