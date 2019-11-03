@@ -9,7 +9,7 @@ namespace ModSwitcherLib
         public static void WriteNewConfig()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlNode rootnode, node, childNode;
+            XmlNode rootnode, node;
 
             rootnode = Node("ModSwitcherConfig", xmlDoc);
             xmlDoc.AppendChild(rootnode);

@@ -64,11 +64,13 @@ namespace ModSwitcherWpf.ViewModels
         #region Commands
         private void OpenFileDialog()
         {
-            OpenFileDialog openFiledialog = new OpenFileDialog();
-            var result = openFiledialog.ShowDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select the Game Path";
+            openFileDialog.Filter = "EXE files (*.exe)|*.exe|All files (*.*)|*.*";
+            var result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                GamePath = openFiledialog.FileName;
+                GamePath = openFileDialog.FileName;
             }
         }
 

@@ -194,6 +194,8 @@ namespace ModSwitcherWpf.ViewModels
                 case ModType.File:
 
                     OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Title = "Select the Mod Path";
+                    openFileDialog.Filter = "BIG files (*.big)|*.big|All files (*.*)|*.*";
                     var result = openFileDialog.ShowDialog();
                     if (result == DialogResult.OK)
                     {
@@ -219,6 +221,8 @@ namespace ModSwitcherWpf.ViewModels
         private void OpenFileDialog()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select the Game Path";
+            openFileDialog.Filter = "EXE files (*.exe)|*.exe|All files (*.*)|*.*";
             var result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {

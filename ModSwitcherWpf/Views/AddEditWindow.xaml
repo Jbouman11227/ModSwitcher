@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:ModSwitcherWpf.ViewModels"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        xmlns:Types="clr-namespace:ModSwitcherLib.Types;assembly=ModSwitcherLib"
+        xmlns:msl="clr-namespace:ModSwitcherLib;assembly=ModSwitcherLib"
         xmlns:local="clr-namespace:ModSwitcherWpf.Views"
         xmlns:converters="clr-namespace:ModSwitcherWpf.Converters"
         mc:Ignorable="d"
@@ -13,7 +13,7 @@
     <Window.Resources>
         <ObjectDataProvider x:Key="ModTypes" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Types:ModType" />
+                <x:Type TypeName="msl:ModType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <converters:EnumToStringConverter x:Key="EnumConverter"/>
