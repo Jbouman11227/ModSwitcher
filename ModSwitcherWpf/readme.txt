@@ -51,4 +51,4 @@ https://www.twitch.tv/wizardking11228).
 
 version 1.1:
 
-- Added file dialog titles and filters: a .big file filter for the modpath and a .exe file filter for the gamepath.
+- Added file dialog titles and filters: a .big file filter for the Mod Path and a .exe file filter for the Game Path.
