@@ -54,7 +54,7 @@ namespace ModSwitcherWpf.ViewModels
         {
             get
             {
-                return !string.IsNullOrEmpty(GamePath);
+                return !string.IsNullOrWhiteSpace(GamePath);
             }
         }
 

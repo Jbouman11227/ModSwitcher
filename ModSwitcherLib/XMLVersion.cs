@@ -5,14 +5,21 @@ using System.IO;
 
 namespace ModSwitcherLib
 {
-    public static class XMLVersion
+    public class XMLVersion
     {
+        public XMLVersion(string gameFolder)
+        {
+            GameFolder = gameFolder;
+        }
+
+        private string GameFolder { get; set; }
+
         public static List<string> GetVersions()
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("versions.xml");
 
-            XmlNodeList versionNodes = xmlDoc.SelectNodes("//VersionList/Version");
+            XmlNodeList versionNodes = xmlDoc.SelectNodes("//VersionConfig/VersionList/Version");
 
             List<string> versionNames = new List<string>();
             foreach(XmlNode versionNode in versionNodes)
@@ -23,33 +30,31 @@ namespace ModSwitcherLib
             return versionNames;
         }
 
-        public static void SetVersion(string versionName, string gameFolder)
+        public void SetVersion(string versionName)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("versions.xml");
 
             XmlNode versionNode = GetVersion(versionName, xmlDoc);
-            if(versionNode == null)
-            {
-                throw new Exception($"versions.xml contains no version called {versionName}.");
-            }
+            XmlNodeList changes = versionNode.ChildNodes;
 
-            foreach (XmlNode fileChangeNode in versionNode.ChildNodes)
+            for(int i = 0; i < changes.Count; i++)
             {
-                string oldFile = gameFolder + "\\" + fileChangeNode.ChildNodes[0].InnerText,
-                       newFile = gameFolder + "\\" + fileChangeNode.ChildNodes[1].InnerText;
-
-                try
+                switch (changes[i].Name)
                 {
-                    File.Move(oldFile, newFile);
+                    case "FileChange":
+                        ExecuteFileChange(changes[i]);
+                        break;
+                    case "PatchChange":
+                        ExecutePatchChange(changes[i], xmlDoc);
+                        break;
                 }
-                catch (FileNotFoundException) { }
             }
         }
 
-        public static XmlNode GetVersion(string versionName, XmlDocument xmlDoc)
+        private XmlNode GetVersion(string versionName, XmlDocument xmlDoc)
         {
-            XmlNodeList versionNodes = xmlDoc.SelectNodes("//VersionList/Version");
+            XmlNodeList versionNodes = xmlDoc.SelectNodes("//VersionConfig/VersionList/Version");
 
             foreach (XmlNode versionNode in versionNodes)
             {
@@ -59,7 +64,43 @@ namespace ModSwitcherLib
                 }
             }
 
-            return null;
+            throw new Exception($"versions.xml contains no version called {versionName}.");
+        }
+
+        private void ExecuteFileChange(XmlNode fileChangeNode)
+        {
+            string oldFile = GameFolder + "\\" + fileChangeNode.ChildNodes[0].InnerText,
+                   newFile = GameFolder + "\\" + fileChangeNode.ChildNodes[1].InnerText;
+
+            try
+            {
+                File.Move(oldFile, newFile);
+            }
+            catch (FileNotFoundException) { }
+        }
+
+        private void ExecutePatchChange(XmlNode patchChangeNode, XmlDocument xmlDoc)
+        {
+            XmlNodeList patchNodes = xmlDoc.SelectNodes("//VersionConfig/PatchHirarchy/Patch");
+            string patchName = patchChangeNode.InnerText;
+
+            bool extension = false;
+            for(int i = 0; i < patchNodes.Count; i++)
+            {
+                if(patchNodes[i].InnerText == patchName)
+                {
+                    extension = true;
+                }
+
+                string oldFile = GameFolder + "\\" + patchNodes[i].InnerText + ( extension ? ".disabled" : ".big"),
+                       newFile = GameFolder + "\\" + patchNodes[i].InnerText + (!extension ? ".disabled" : ".big");
+
+                try
+                {
+                    File.Move(oldFile, newFile);
+                }
+                catch (FileNotFoundException) { }
+            }
         }
     }
 }

@@ -63,34 +63,6 @@ namespace ModSwitcherWpf.ViewModels
 
         public string SelectedModName { get; set; }
 
-        public bool UsingModPath
-        {
-            get
-            {
-                return TheMod.UsingModPath;
-            }
-            set
-            {
-                TheMod.UsingModPath = value;
-                OnPropertyChanged("UsingModPath");
-                OnPropertyChanged("UsingFlag");
-            }
-        }
-
-        public bool UsingFlag
-        {
-            get
-            {
-                return !(TheMod.UsingModPath);
-            }
-            set
-            {
-                TheMod.UsingModPath = !value;
-                OnPropertyChanged("UsingModPath");
-                OnPropertyChanged("UsingFlag");
-            }
-        }
-
         public bool OverrideGamePath
         {
             get
@@ -121,7 +93,7 @@ namespace ModSwitcherWpf.ViewModels
         {
             get
             {
-                return !string.IsNullOrEmpty(TheMod.ModName);
+                return !string.IsNullOrWhiteSpace(TheMod.ModName);
             }
         }
 

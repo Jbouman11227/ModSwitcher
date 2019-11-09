@@ -110,8 +110,7 @@ namespace ModSwitcherLib
             childNode.AppendChild(Node("ModName", mod.ModName, xmlDoc));
             childNode.AppendChild(Node("modType", Convert.ToString(mod.modType), xmlDoc));
             childNode.AppendChild(Node("ModPath", mod.ModPath, xmlDoc));
-            childNode.AppendChild(Node("Flag", mod.Flag, xmlDoc));
-            childNode.AppendChild(Node("UsingModPath", Convert.ToString(mod.UsingModPath), xmlDoc));
+            childNode.AppendChild(Node("ExtraFlags", mod.ExtraFlags, xmlDoc));
             childNode.AppendChild(Node("OverrideGamePath", Convert.ToString(mod.OverrideGamePath), xmlDoc));
             childNode.AppendChild(Node("GamePath", mod.GamePath, xmlDoc));
             childNode.AppendChild(Node("SetVersion", Convert.ToString(mod.SetVersion), xmlDoc));
@@ -130,12 +129,11 @@ namespace ModSwitcherLib
             modNode.ChildNodes[0].InnerText = mod.ModName;
             modNode.ChildNodes[1].InnerText = Convert.ToString(mod.modType);
             modNode.ChildNodes[2].InnerText = mod.ModPath;
-            modNode.ChildNodes[3].InnerText = mod.Flag;
-            modNode.ChildNodes[4].InnerText = Convert.ToString(mod.UsingModPath);
-            modNode.ChildNodes[5].InnerText = Convert.ToString(mod.OverrideGamePath);
-            modNode.ChildNodes[6].InnerText = mod.GamePath;
-            modNode.ChildNodes[7].InnerText = Convert.ToString(mod.SetVersion);
-            modNode.ChildNodes[8].InnerText = mod.Version;
+            modNode.ChildNodes[3].InnerText = mod.ExtraFlags;
+            modNode.ChildNodes[4].InnerText = Convert.ToString(mod.OverrideGamePath);
+            modNode.ChildNodes[5].InnerText = mod.GamePath;
+            modNode.ChildNodes[6].InnerText = Convert.ToString(mod.SetVersion);
+            modNode.ChildNodes[7].InnerText = mod.Version;
 
             xmlDoc.Save("config.xml");
         }
@@ -223,12 +221,11 @@ namespace ModSwitcherLib
             mod.ModName = node.ChildNodes[0].InnerText;
             mod.modType = (ModType)Enum.Parse(typeof(ModType), node.ChildNodes[1].InnerText, true);
             mod.ModPath = node.ChildNodes[2].InnerText;
-            mod.Flag = node.ChildNodes[3].InnerText;
-            mod.UsingModPath = Convert.ToBoolean(node.ChildNodes[4].InnerText);
-            mod.OverrideGamePath = Convert.ToBoolean(node.ChildNodes[5].InnerText);
-            mod.GamePath = node.ChildNodes[6].InnerText;
-            mod.SetVersion = Convert.ToBoolean(node.ChildNodes[7].InnerText);
-            mod.Version = node.ChildNodes[8].InnerText;
+            mod.ExtraFlags = node.ChildNodes[3].InnerText;
+            mod.OverrideGamePath = Convert.ToBoolean(node.ChildNodes[4].InnerText);
+            mod.GamePath = node.ChildNodes[5].InnerText;
+            mod.SetVersion = Convert.ToBoolean(node.ChildNodes[6].InnerText);
+            mod.Version = node.ChildNodes[7].InnerText;
 
             return mod;
         }

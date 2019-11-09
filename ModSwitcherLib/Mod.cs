@@ -7,8 +7,7 @@
             ModName = null;
             modType = ModType.File;
             ModPath = null;
-            Flag = null;
-            UsingModPath = true;
+            ExtraFlags = null;
             OverrideGamePath = false;
             GamePath = null;
             SetVersion = false;
@@ -21,9 +20,7 @@
 
         public string ModPath { get; set; }
 
-        public string Flag { get; set; }
-
-        public bool UsingModPath { get; set; }
+        public string ExtraFlags { get; set; }
 
         public bool OverrideGamePath { get; set; }
 

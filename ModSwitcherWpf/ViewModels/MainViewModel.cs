@@ -138,21 +138,21 @@ namespace ModSwitcherWpf.ViewModels
                 }
 
                 string flag = string.Empty;
-                if (CurrentMod.UsingModPath)
+                if (!string.IsNullOrWhiteSpace(CurrentMod.ModPath))
                 {
-                    if (!string.IsNullOrEmpty(CurrentMod.ModPath))
-                    {
-                        flag = $"-mod \"{CurrentMod.ModPath}\"";
-                    }
+                    flag += $"-mod \"{CurrentMod.ModPath}\"";
                 }
-                else
+                if (!string.IsNullOrWhiteSpace(CurrentMod.ExtraFlags))
                 {
-                    flag = CurrentMod.Flag;
+                    flag += (flag == string.Empty ? string.Empty : " ") + CurrentMod.ExtraFlags.Trim();
                 }
+
                 if (CurrentMod.SetVersion)
                 {
                     string gameFolder = gamePath.Substring(0, gamePath.Length - "\\lotrbfme2ep1.exe".Length);
-                    XMLVersion.SetVersion(CurrentMod.Version, gameFolder);
+
+                    XMLVersion xmlVersion = new XMLVersion(gameFolder);
+                    xmlVersion.SetVersion(CurrentMod.Version);
                 }
          
                 Process.Start($"\"{gamePath}\"", flag);
