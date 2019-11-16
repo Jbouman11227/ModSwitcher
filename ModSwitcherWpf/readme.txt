@@ -18,8 +18,8 @@ setting, this is probably not necessary).
 (e.g. C:\Program Files (x86)\Electronic Arts\The Lord of the Rings, The Rise of the Witch-king\lotrbfme2ep1.exe). The Gear button in the bottom
 right of the main window allows you to alter the Game Path afterwards.
 
-- Add mods by using the 'Add' button. A window will pop up where you can set all the necessary information. The last three options ('Flag', 'Override
-Default Game Path', 'Set Game Version') are optional.
+- Add mods by using the 'Add' button. A window will pop up where you can set all the necessary information. The last three options ('Extra Flags',
+'Override Default Game Path', 'Set Game Version') are optional.
 
 - Once you created a mod, you can edit the mod by double clicking it.
 
@@ -42,6 +42,9 @@ switcher.
 
 - You can actually use this switcher for bfme2 (and probably bfme1) as well! You only need to change the name of the executable of the ModSwitcher.
 
+- You can run the game with 'Extra Flags'. A list of possible flags can be found here:
+https://www.gamereplays.org/community/index.php?s=5158e095f2a742d654490ec03cc0a08f&showtopic=492333&st=0&p=5922754&#entry5922754.
+
 -----QUESTIONS AND BUGS--------------
 
 If you have any questions about the ModSwitcher or found any bugs, you can message me on discord or let me know on one of my streams (see
@@ -52,3 +55,8 @@ https://www.twitch.tv/wizardking11228).
 version 1.1:
 
 - Added file dialog titles and filters: a .big file filter for the Mod Path and a .exe file filter for the Game Path.
+
+version 1.2:
+
+- Made the version switching more efficient.
+- Changed 'Flag' to 'Extra Flags'.
