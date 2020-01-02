@@ -60,3 +60,7 @@ version 1.2:
 
 - Made the version switching more efficient.
 - Changed 'Flag' to 'Extra Flags'.
+
+version 1.3:
+
+- Made compatible with RotWK 2.02 v8.2.0.
