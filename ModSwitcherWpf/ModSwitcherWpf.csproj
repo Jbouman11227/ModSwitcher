@@ -143,9 +143,6 @@
     <Resource Include="AppIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="versions.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -65,7 +65,7 @@ namespace ModSwitcherWpf.ViewModels
         private void OpenFolderDialog()
         {
             var folderBrowseDialog = new FolderBrowserDialog();
-            folderBrowseDialog.Description = "Select the Game Path";
+            folderBrowseDialog.Description = "Select the Game Path:";
             var result = folderBrowseDialog.ShowDialog();
             if (result == DialogResult.OK)
             {

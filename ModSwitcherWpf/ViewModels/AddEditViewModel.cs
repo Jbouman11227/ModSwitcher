@@ -15,12 +15,10 @@ namespace ModSwitcherWpf.ViewModels
             TheMod = new Mod();
         }
 
-        public AddEditViewModel(string windowName, string selectedModName
-                                , List<string> versionNames, Action closeAction)
+        public AddEditViewModel(string windowName, string selectedModName, Action closeAction)
         {
             WindowName = windowName;
             SelectedModName = selectedModName;
-            VersionNames = versionNames;
             CloseAction = closeAction;
             switch (windowName)
             {
@@ -83,8 +81,6 @@ namespace ModSwitcherWpf.ViewModels
                 return !string.IsNullOrWhiteSpace(TheMod.ModName);
             }
         }
-
-        public List<string> VersionNames { get; set; }
 
         public Action CloseAction, RefreshMainResourcesAction;
         #endregion

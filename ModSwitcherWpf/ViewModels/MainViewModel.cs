@@ -23,7 +23,6 @@ namespace ModSwitcherWpf.ViewModels
             CurrentModName = null;
             ModNameList = new ObservableCollection<string>();
             SelectedModName = null;
-            VersionNames = null;
             CloseAction = closeAction;
 
             try
@@ -49,18 +48,6 @@ namespace ModSwitcherWpf.ViewModels
                 MessageBox.Show($"Failed to create or load the configuration: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CloseAction?.Invoke();
                 return;
-            }
-
-            if (File.Exists("versions.xml"))
-            {
-                try
-                {
-                    VersionNames = XMLVersion.GetVersions();
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"Failed to load game versions: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
         }
         #endregion
@@ -106,8 +93,6 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public List<string> VersionNames { get; set; }
-
         public bool RemoveSetasCurrentEnabled
         {
             get
@@ -148,7 +133,7 @@ namespace ModSwitcherWpf.ViewModels
 
         private void Add()
         {
-            AddEditWindow addEditWindow = new AddEditWindow("Add Mod", SelectedModName, VersionNames);
+            var addEditWindow = new AddEditWindow("Add Mod", SelectedModName);
             addEditWindow.addEditViewModel.RefreshMainResourcesAction = new Action(RefreshMainResources);
             addEditWindow.ShowDialog();
         }
@@ -168,13 +153,21 @@ namespace ModSwitcherWpf.ViewModels
 
         private void PatchSwitcher()
         {
-            var patchSwitcherPath = XMLConfig.ReadGamePath() + "\\" + XMLConfig.ReadPatchSwitcher();
-            Process.Start($"\"{patchSwitcherPath}\"");
+            try
+            {
+                var startInfo = new ProcessStartInfo(XMLConfig.ReadPatchSwitcher());
+                startInfo.WorkingDirectory = XMLConfig.ReadGamePath();
+                Process.Start(startInfo);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show($"Failed to open Patch Switcher: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void Edit()
         {
-            AddEditWindow addEditWindow = new AddEditWindow("Edit Mod", SelectedModName, VersionNames);
+            var addEditWindow = new AddEditWindow("Edit Mod", SelectedModName);
             addEditWindow.addEditViewModel.RefreshMainResourcesAction = new Action(RefreshMainResources);
             addEditWindow.ShowDialog();
         }

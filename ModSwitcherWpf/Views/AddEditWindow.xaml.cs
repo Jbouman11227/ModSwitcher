@@ -11,12 +11,11 @@ namespace ModSwitcherWpf.Views
     {
         public AddEditViewModel addEditViewModel { get; private set; }
 
-        public AddEditWindow(string windowName, string selectedMod, List<string> versionNames)
+        public AddEditWindow(string windowName, string selectedMod)
         {
             InitializeComponent();
 
-            addEditViewModel = new AddEditViewModel(windowName, selectedMod
-                                                    , versionNames, Close);
+            addEditViewModel = new AddEditViewModel(windowName, selectedMod, Close);
             DataContext = addEditViewModel;
         }
     }
