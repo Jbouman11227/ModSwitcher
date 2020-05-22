@@ -9,9 +9,6 @@
 4. Now set the path under 'Location' to the executable path of the ModSwitcher (e.g. C:\Users\WizardKing\Desktop\ModSwitcher\lotrbfme2ep1.exe).
 Note: the path above is NOT the path to the executable of the game!
 
-5. Finally, make sure that you run GameRanger (and hence the ModSwitcher) with administrator rights (if you dont use the 'Set Game Version'
-setting, this is probably not necessary).
-
 -----HOW TO USE----------------------
 
 - The first time you start the ModSwitcher, you will be asked to set the Game Path. This should be the path to the executable of the Game
@@ -24,10 +21,6 @@ right of the main window allows you to alter the Game Path afterwards.
 - Once you created a mod, you can edit the mod by double clicking it.
 
 - If a mod is selected, you can remove it or set it as the current mod. When you press 'Start Game', the current mod will be launched.
-
-- If you enable the option called 'Set Game Version' (in the Edit Mod window), you will notice that you have several options: RotWK 2.01,
-RotWK 2.02 v8.0.0 and RotWK 2.02 v8.0.1. If you understand how switching between different game versions works, you can add more versions by 
-editing the versions.xml file.
 
 -----TIPS AND TRICKS-----------------
 
@@ -42,7 +35,7 @@ switcher.
 
 - You can actually use this switcher for bfme2 (and probably bfme1) as well! You only need to change the name of the executable of the ModSwitcher.
 
-- You can run the game with 'Extra Flags'. A list of possible flags can be found here:
+- You can run the any mod with 'Extra Flags'. A list of possible flags can be found here:
 https://www.gamereplays.org/community/index.php?s=5158e095f2a742d654490ec03cc0a08f&showtopic=492333&st=0&p=5922754&#entry5922754.
 
 -----QUESTIONS AND BUGS--------------
@@ -64,3 +57,8 @@ version 1.2:
 version 1.3:
 
 - Made compatible with RotWK 2.02 v8.2.0.
+
+version 1.4:
+
+- Removed 'Set Game Version' option.
+- Added a button that launches the RotWK patch switcher.
