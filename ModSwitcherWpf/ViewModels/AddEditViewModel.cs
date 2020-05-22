@@ -173,15 +173,14 @@ namespace ModSwitcherWpf.ViewModels
 
         }
 
-        private void OpenFileDialog()
+        private void OpenGamePathDialog()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Select the Game Path";
-            openFileDialog.Filter = "EXE files (*.exe)|*.exe|All files (*.*)|*.*";
-            var result = openFileDialog.ShowDialog();
+            var folderBrowseDialog = new FolderBrowserDialog();
+            folderBrowseDialog.Description = "Select the Game Path:";
+            var result = folderBrowseDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                TheMod.GamePath = openFileDialog.FileName;
+                TheMod.GamePath = folderBrowseDialog.SelectedPath;
                 OnPropertyChanged("TheMod");
             }
         }
@@ -215,11 +214,11 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public ICommand OpenFileDialogCommand
+        public ICommand OpenGamePathDialogCommand
         {
             get
             {
-                return new DelegateCommand(OpenFileDialog);
+                return new DelegateCommand(OpenGamePathDialog);
             }
         }
         #endregion

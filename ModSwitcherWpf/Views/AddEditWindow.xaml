@@ -72,6 +72,6 @@
         <Button Style="{StaticResource DarkThemeButton}" Content="Cancel" HorizontalAlignment="Left" Margin="356,212,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CancelCommand}" Height="23"/>
         <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,181,0,0" TextWrapping="NoWrap" Text="{Binding TheMod.GamePath}" VerticalAlignment="Top" Width="272" VerticalContentAlignment="Top" IsEnabled="{Binding Path=OverrideGamePath}"/>
         <CheckBox Style="{StaticResource DarkThemeCheckBox}" Content="Override Default Game Path:" IsChecked="{Binding Path=OverrideGamePath}" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
-        <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,181,0,0" VerticalAlignment="Top" Width="31" Height="18" IsEnabled="{Binding Path=OverrideGamePath}" Command="{Binding OpenFileDialogCommand}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,181,0,0" VerticalAlignment="Top" Width="31" Height="18" IsEnabled="{Binding Path=OverrideGamePath}" Command="{Binding OpenGamePathDialogCommand}"/>
     </Grid>
 </Window>
