@@ -41,7 +41,7 @@
     <Grid Background="#1D2027">
         <TextBlock Style="{StaticResource DarkThemeTextBlock}" HorizontalAlignment="Left" Margin="29,26,0,0" TextWrapping="Wrap" Text="Game Path:" VerticalAlignment="Top"/>
         <TextBox Style="{StaticResource DarkThemeTextBox}" HorizontalAlignment="Left" Height="18" Margin="123,26,0,0" TextWrapping="NoWrap" Text="{Binding Path=GamePath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="272"/>
-        <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,26,0,0" VerticalAlignment="Top" Width="31" Height="18" Command="{Binding OpenFileDialogCommand}"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="..." HorizontalAlignment="Left" Margin="400,26,0,0" VerticalAlignment="Top" Width="31" Height="18" Command="{Binding OpenFolderDialogCommand}"/>
         <Button Style="{StaticResource DarkThemeButton}" Content="OK" HorizontalAlignment="Center" Width="75" Command="{Binding OKCommand}" Height="23" IsEnabled="{Binding Path=OKEnabled}" IsDefault="True" VerticalAlignment="Top" Margin="188,56,187.4,0" />
     </Grid>
 </Window>

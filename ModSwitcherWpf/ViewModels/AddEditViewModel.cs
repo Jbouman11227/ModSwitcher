@@ -15,12 +15,10 @@ namespace ModSwitcherWpf.ViewModels
             TheMod = new Mod();
         }
 
-        public AddEditViewModel(string windowName, string selectedModName
-                                , List<string> versionNames, Action closeAction)
+        public AddEditViewModel(string windowName, string selectedModName, Action closeAction)
         {
             WindowName = windowName;
             SelectedModName = selectedModName;
-            VersionNames = versionNames;
             CloseAction = closeAction;
             switch (windowName)
             {
@@ -76,19 +74,6 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public bool SetVersion
-        {
-            get
-            {
-                return TheMod.SetVersion;
-            }
-            set
-            {
-                TheMod.SetVersion = value;
-                OnPropertyChanged("SetVersion");
-            }
-        }
-
         public bool OKEnabled
         {
             get
@@ -96,8 +81,6 @@ namespace ModSwitcherWpf.ViewModels
                 return !string.IsNullOrWhiteSpace(TheMod.ModName);
             }
         }
-
-        public List<string> VersionNames { get; set; }
 
         public Action CloseAction, RefreshMainResourcesAction;
         #endregion
@@ -165,7 +148,7 @@ namespace ModSwitcherWpf.ViewModels
             {
                 case ModType.File:
 
-                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    var openFileDialog = new OpenFileDialog();
                     openFileDialog.Title = "Select the Mod Path";
                     openFileDialog.Filter = "BIG files (*.big)|*.big|All files (*.*)|*.*";
                     var result = openFileDialog.ShowDialog();
@@ -178,7 +161,7 @@ namespace ModSwitcherWpf.ViewModels
 
                 case ModType.Folder:
 
-                    FolderBrowserDialog folderBrowseDialog = new FolderBrowserDialog();
+                    var folderBrowseDialog = new FolderBrowserDialog();
                     result = folderBrowseDialog.ShowDialog();
                     if (result == DialogResult.OK)
                     {

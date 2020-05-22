@@ -56,6 +56,7 @@
         <Button Style="{StaticResource DarkThemeButton}" Content="Add" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="85" Command="{Binding AddCommand}" Height="23" />
         <Button Style="{StaticResource DarkThemeButton}" Content="Remove" HorizontalAlignment="Left" Margin="100,273,0,0" VerticalAlignment="Top" Width="85" Command="{Binding RemoveCommand}" IsEnabled="{Binding Path=RemoveSetasCurrentEnabled}" Height="23"/>
         <Button Style="{StaticResource DarkThemeButton}" Content="Set as Current" HorizontalAlignment="Left" Margin="190,273,0,0" VerticalAlignment="Top" Width="85" Command="{Binding SetAsCurrentCommand}" IsEnabled="{Binding Path=RemoveSetasCurrentEnabled}" Height="23"/>
-        <Button Style="{StaticResource DarkThemeButton}" Content="Start Game" HorizontalAlignment="Left" Margin="10,301,0,0" VerticalAlignment="Top" Width="265" Command="{Binding StartGameCommand}" IsEnabled="{Binding Path=StartGameEnabled}" Height="24" IsDefault="True"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="Start Game" HorizontalAlignment="Left" Margin="10,301,0,0" VerticalAlignment="Top" Width="130" Command="{Binding StartGameCommand}" IsEnabled="{Binding Path=StartGameEnabled}" Height="24" IsDefault="True"/>
+        <Button Style="{StaticResource DarkThemeButton}" Content="Patch Switcher" HorizontalAlignment="Right" Margin="0,301,19.4,0" VerticalAlignment="Top" Width="130" Command="{Binding PatchSwitcherCommand}" Height="24"/>
     </Grid>
 </Window>

@@ -10,8 +10,6 @@
             ExtraFlags = null;
             OverrideGamePath = false;
             GamePath = null;
-            SetVersion = false;
-            Version = null;
         }
 
         public string ModName { get; set; }
@@ -25,9 +23,5 @@
         public bool OverrideGamePath { get; set; }
 
         public string GamePath { get; set; }
-
-        public bool SetVersion { get; set; }
-
-        public string Version { get; set; }
     }
 }
