@@ -9,29 +9,31 @@ namespace ModSwitcherLib
         public static void WriteNewConfig()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlNode rootnode, node;
 
-            rootnode = Node("ModSwitcherConfig", xmlDoc);
-            xmlDoc.AppendChild(rootnode);
+            xmlDoc.AddPath("ModSwitcherConfig/Settings/DefaultGamePath");
+            xmlDoc.AddPath("ModSwitcherConfig/Settings/GameFile");
+            xmlDoc.AddPath("ModSwitcherConfig/Settings/PatchSwitcher");
+            xmlDoc.AddPath("ModSwitcherConfig/CurrentMod/ModName");
+            xmlDoc.AddPath("ModSwitcherConfig/ModList");
 
-            rootnode.AppendChild(Node("DefaultGamePath", string.Empty, xmlDoc));
+            var gameFileNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/GameFile");
+            gameFileNode.InnerText = "lotrbfme2ep1.exe";
 
-            node = Node("CurrentMod", xmlDoc);
-            rootnode.AppendChild(node);
-            node.AppendChild(Node("ModName", string.Empty, xmlDoc));
+            var patchSwitcherNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/PatchSwitcher");
+            patchSwitcherNode.InnerText = "202_launcher.exe";
 
-            node = Node("ModList", xmlDoc);
-            rootnode.AppendChild(node);
+            var modNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
+            modNameNode.InnerText = string.Empty;
 
             xmlDoc.Save("config.xml");
         }
 
         public static void ReadXML(ObservableCollection<string> modList, ref string currentModName)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
-            XmlNodeList modNameNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod/ModName");
-            XmlNode currentModNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
+            var modNameNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod/ModName");
+            var currentModNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
             
             currentModName = currentModNameNode.InnerText;
 
@@ -46,7 +48,7 @@ namespace ModSwitcherLib
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
-            XmlNode gamePathNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/DefaultGamePath");
+            var gamePathNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/DefaultGamePath");
 
             gamePathNode.InnerText = gamePath;
 
@@ -55,28 +57,27 @@ namespace ModSwitcherLib
 
         public static string ReadGamePath()
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
-            XmlNode gamePathNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/DefaultGamePath");
 
-            return gamePathNode.InnerText;
+            return xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/DefaultGamePath").InnerText;
         }
 
         public static string ReadCurrentModName()
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
-            XmlNode currentModNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
+            var currentModNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
 
             return currentModNameNode.InnerText;
         }
 
         public static void SetCurrentModName(string currentModName)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
             
-            XmlNode currentModNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
+            var currentModNameNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/CurrentMod/ModName");
 
             if(currentModNameNode == null)
             {
@@ -90,21 +91,21 @@ namespace ModSwitcherLib
 
         public static Mod ReadMod(string modName)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
 
-            XmlNode modNode = GetModNode(modName, xmlDoc);
+            var modNode = GetModNode(modName, xmlDoc);
 
             return ModNodeToMod(modNode);
         }
 
         public static void AddMod(Mod mod)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
             XmlNode modListNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/ModList");
 
-            XmlNode childNode = Node("Mod", xmlDoc);
+            var childNode = Node("Mod", xmlDoc);
             modListNode.AppendChild(childNode);
 
             childNode.AppendChild(Node("ModName", mod.ModName, xmlDoc));
@@ -113,18 +114,16 @@ namespace ModSwitcherLib
             childNode.AppendChild(Node("ExtraFlags", mod.ExtraFlags, xmlDoc));
             childNode.AppendChild(Node("OverrideGamePath", Convert.ToString(mod.OverrideGamePath), xmlDoc));
             childNode.AppendChild(Node("GamePath", mod.GamePath, xmlDoc));
-            childNode.AppendChild(Node("SetVersion", Convert.ToString(mod.SetVersion), xmlDoc));
-            childNode.AppendChild(Node("Version", mod.Version, xmlDoc));
 
             xmlDoc.Save("config.xml");
         }
 
         public static void EditMod(Mod mod, string selectedMod)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
 
-            XmlNode modNode = GetModNode(selectedMod, xmlDoc);
+            var modNode = GetModNode(selectedMod, xmlDoc);
 
             modNode.ChildNodes[0].InnerText = mod.ModName;
             modNode.ChildNodes[1].InnerText = Convert.ToString(mod.modType);
@@ -132,30 +131,44 @@ namespace ModSwitcherLib
             modNode.ChildNodes[3].InnerText = mod.ExtraFlags;
             modNode.ChildNodes[4].InnerText = Convert.ToString(mod.OverrideGamePath);
             modNode.ChildNodes[5].InnerText = mod.GamePath;
-            modNode.ChildNodes[6].InnerText = Convert.ToString(mod.SetVersion);
-            modNode.ChildNodes[7].InnerText = mod.Version;
 
             xmlDoc.Save("config.xml");
         }
 
         public static void RemoveMod(string selectedMod)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
             
-            XmlNode modListNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/ModList");
-            XmlNode modNode = GetModNode(selectedMod, xmlDoc);
+            var modListNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/ModList");
+            var modNode = GetModNode(selectedMod, xmlDoc);
 
             modListNode.RemoveChild(modNode);
 
             xmlDoc.Save("config.xml");
         }
 
+        public static string ReadPatchSwitcher()
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load("config.xml");
+
+            return xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/PatchSwitcher").InnerText;
+        }
+
+        public static string ReadGameFile()
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load("config.xml");
+
+            return xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/GameFile").InnerText;
+        }
+
         public static bool Exists(string modName, int indexOfSelectedMod = -1)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
-            XmlNodeList modNameNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod/ModName");
+            var modNameNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod/ModName");
 
             int i = 0;
             while (i < modNameNodes.Count)
@@ -171,9 +184,9 @@ namespace ModSwitcherLib
 
         public static int IndexOf(string modName)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
-            XmlNodeList modNameNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod/ModName");
+            var modNameNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod/ModName");
 
             int i = 0;
             while(i < modNameNodes.Count)
@@ -189,7 +202,7 @@ namespace ModSwitcherLib
 
         public static XmlNode GetModNode(string modName, XmlDocument xmlDoc)
         {
-            XmlNodeList modNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod");
+            var modNodes = xmlDoc.SelectNodes("//ModSwitcherConfig/ModList/Mod");
             foreach (XmlNode modNode in modNodes)
             {
                 if (modNode.ChildNodes[0].InnerText == modName)
@@ -203,20 +216,20 @@ namespace ModSwitcherLib
 
         private static XmlNode Node(string nodeName, string value, XmlDocument xmlDoc)
         {
-            XmlNode xmlNode = xmlDoc.CreateElement(nodeName);
+            var xmlNode = xmlDoc.CreateElement(nodeName);
             xmlNode.InnerText = value;
             return xmlNode;
         }
 
         private static XmlNode Node(string nodeName, XmlDocument xmlDoc)
         {
-            XmlNode xmlNode = xmlDoc.CreateElement(nodeName);
+            var xmlNode = xmlDoc.CreateElement(nodeName);
             return xmlNode;
         }
 
         private static Mod ModNodeToMod(XmlNode node)
         {
-            Mod mod = new Mod();
+            var mod = new Mod();
 
             mod.ModName = node.ChildNodes[0].InnerText;
             mod.modType = (ModType)Enum.Parse(typeof(ModType), node.ChildNodes[1].InnerText, true);
@@ -224,8 +237,6 @@ namespace ModSwitcherLib
             mod.ExtraFlags = node.ChildNodes[3].InnerText;
             mod.OverrideGamePath = Convert.ToBoolean(node.ChildNodes[4].InnerText);
             mod.GamePath = node.ChildNodes[5].InnerText;
-            mod.SetVersion = Convert.ToBoolean(node.ChildNodes[6].InnerText);
-            mod.Version = node.ChildNodes[7].InnerText;
 
             return mod;
         }

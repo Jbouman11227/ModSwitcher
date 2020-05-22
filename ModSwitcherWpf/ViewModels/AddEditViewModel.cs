@@ -76,19 +76,6 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public bool SetVersion
-        {
-            get
-            {
-                return TheMod.SetVersion;
-            }
-            set
-            {
-                TheMod.SetVersion = value;
-                OnPropertyChanged("SetVersion");
-            }
-        }
-
         public bool OKEnabled
         {
             get
@@ -165,7 +152,7 @@ namespace ModSwitcherWpf.ViewModels
             {
                 case ModType.File:
 
-                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    var openFileDialog = new OpenFileDialog();
                     openFileDialog.Title = "Select the Mod Path";
                     openFileDialog.Filter = "BIG files (*.big)|*.big|All files (*.*)|*.*";
                     var result = openFileDialog.ShowDialog();
@@ -178,7 +165,7 @@ namespace ModSwitcherWpf.ViewModels
 
                 case ModType.Folder:
 
-                    FolderBrowserDialog folderBrowseDialog = new FolderBrowserDialog();
+                    var folderBrowseDialog = new FolderBrowserDialog();
                     result = folderBrowseDialog.ShowDialog();
                     if (result == DialogResult.OK)
                     {

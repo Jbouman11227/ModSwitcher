@@ -62,15 +62,14 @@ namespace ModSwitcherWpf.ViewModels
         #endregion
 
         #region Commands
-        private void OpenFileDialog()
+        private void OpenFolderDialog()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Select the Game Path";
-            openFileDialog.Filter = "EXE files (*.exe)|*.exe|All files (*.*)|*.*";
-            var result = openFileDialog.ShowDialog();
+            var folderBrowseDialog = new FolderBrowserDialog();
+            folderBrowseDialog.Description = "Select the Game Path";
+            var result = folderBrowseDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                GamePath = openFileDialog.FileName;
+                GamePath = folderBrowseDialog.SelectedPath;
             }
         }
 
@@ -93,11 +92,11 @@ namespace ModSwitcherWpf.ViewModels
             CloseAction?.Invoke();
         }
 
-        public ICommand OpenFileDialogCommand
+        public ICommand OpenFolderDialogCommand
         {
             get
             {
-                return new DelegateCommand(OpenFileDialog);
+                return new DelegateCommand(OpenFolderDialog);
             }
         }
 

@@ -122,40 +122,22 @@ namespace ModSwitcherWpf.ViewModels
         #region Commands
         private void StartGame()
         {
-            Mod CurrentMod = null;
             try 
-            { 
-                CurrentMod = XMLConfig.ReadMod(CurrentModName);
-
-                string gamePath;
-                if (CurrentMod.OverrideGamePath)
-                {
-                    gamePath = CurrentMod.GamePath;
-                }
-                else
-                {
-                    gamePath = XMLConfig.ReadGamePath();
-                }
+            {
+                var currentMod = XMLConfig.ReadMod(CurrentModName);
+                var gameFilePath = GetGamePath(currentMod) + XMLConfig.ReadGameFile(); 
 
                 string flag = string.Empty;
-                if (!string.IsNullOrWhiteSpace(CurrentMod.ModPath))
+                if (!string.IsNullOrWhiteSpace(currentMod.ModPath))
                 {
-                    flag += $"-mod \"{CurrentMod.ModPath}\"";
+                    flag += $"-mod \"{currentMod.ModPath}\"";
                 }
-                if (!string.IsNullOrWhiteSpace(CurrentMod.ExtraFlags))
+                if (!string.IsNullOrWhiteSpace(currentMod.ExtraFlags))
                 {
-                    flag += (flag == string.Empty ? string.Empty : " ") + CurrentMod.ExtraFlags.Trim();
-                }
-
-                if (CurrentMod.SetVersion)
-                {
-                    string gameFolder = gamePath.Substring(0, gamePath.Length - "\\lotrbfme2ep1.exe".Length);
-
-                    XMLVersion xmlVersion = new XMLVersion(gameFolder);
-                    xmlVersion.SetVersion(CurrentMod.Version);
+                    flag += (flag == string.Empty ? string.Empty : " ") + currentMod.ExtraFlags.Trim();
                 }
          
-                Process.Start($"\"{gamePath}\"", flag);
+                Process.Start($"\"{gameFilePath}\"", flag);
                 CloseAction?.Invoke();
             }
             catch (Exception e)
@@ -182,6 +164,12 @@ namespace ModSwitcherWpf.ViewModels
             {
                 MessageBox.Show($"Failed to set current mod: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void PatchSwitcher()
+        {
+            var patchSwitcherPath = XMLConfig.ReadGamePath() + "\\" + XMLConfig.ReadPatchSwitcher();
+            Process.Start($"\"{patchSwitcherPath}\"");
         }
 
         public void Edit()
@@ -224,6 +212,18 @@ namespace ModSwitcherWpf.ViewModels
         {
             var gamePathWindow = new GamePathWindow();
             gamePathWindow.ShowDialog();
+        }
+
+        private string GetGamePath(Mod mod)
+        {
+            if (mod.OverrideGamePath)
+            {
+                return mod.GamePath;
+            }
+            else
+            {
+                return XMLConfig.ReadGamePath();
+            }
         }
 
         public ICommand StartGameCommand
@@ -271,6 +271,14 @@ namespace ModSwitcherWpf.ViewModels
             get
             {
                 return new DelegateCommand(Settings);
+            }
+        }
+
+        public ICommand PatchSwitcherCommand
+        {
+            get
+            {
+                return new DelegateCommand(PatchSwitcher);
             }
         }
         #endregion Commands
