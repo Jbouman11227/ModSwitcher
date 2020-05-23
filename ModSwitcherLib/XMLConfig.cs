@@ -10,7 +10,7 @@ namespace ModSwitcherLib
         {
             XmlDocument xmlDoc = new XmlDocument();
 
-            xmlDoc.AddPath("ModSwitcherConfig/Settings/DefaultGamePath");
+            xmlDoc.AddPath("ModSwitcherConfig/Settings/DefaultGameFolder");
             xmlDoc.AddPath("ModSwitcherConfig/Settings/GameFile");
             xmlDoc.AddPath("ModSwitcherConfig/Settings/PatchSwitcher");
             xmlDoc.AddPath("ModSwitcherConfig/CurrentMod/ModName");
@@ -44,23 +44,23 @@ namespace ModSwitcherLib
             }
         }
 
-        public static void SetGamePath(string gamePath)
+        public static void SetGameFolder(string gameFolder)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
-            var gamePathNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/DefaultGamePath");
+            var gameFolderNode = xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/DefaultGameFolder");
 
-            gamePathNode.InnerText = gamePath;
+            gameFolderNode.InnerText = gameFolder;
 
             xmlDoc.Save("config.xml");
         }
 
-        public static string ReadGamePath()
+        public static string ReadGameFolder()
         {
             var xmlDoc = new XmlDocument();
             xmlDoc.Load("config.xml");
 
-            return xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/DefaultGamePath").InnerText;
+            return xmlDoc.SelectSingleNode("//ModSwitcherConfig/Settings/DefaultGameFolder").InnerText;
         }
 
         public static string ReadCurrentModName()
@@ -112,8 +112,8 @@ namespace ModSwitcherLib
             childNode.AppendChild(Node("modType", Convert.ToString(mod.modType), xmlDoc));
             childNode.AppendChild(Node("ModPath", mod.ModPath, xmlDoc));
             childNode.AppendChild(Node("ExtraFlags", mod.ExtraFlags, xmlDoc));
-            childNode.AppendChild(Node("OverrideGamePath", Convert.ToString(mod.OverrideGamePath), xmlDoc));
-            childNode.AppendChild(Node("GamePath", mod.GamePath, xmlDoc));
+            childNode.AppendChild(Node("OverrideGameFolder", Convert.ToString(mod.OverrideGameFolder), xmlDoc));
+            childNode.AppendChild(Node("GameFolder", mod.GameFolder, xmlDoc));
 
             xmlDoc.Save("config.xml");
         }
@@ -129,8 +129,8 @@ namespace ModSwitcherLib
             modNode.ChildNodes[1].InnerText = Convert.ToString(mod.modType);
             modNode.ChildNodes[2].InnerText = mod.ModPath;
             modNode.ChildNodes[3].InnerText = mod.ExtraFlags;
-            modNode.ChildNodes[4].InnerText = Convert.ToString(mod.OverrideGamePath);
-            modNode.ChildNodes[5].InnerText = mod.GamePath;
+            modNode.ChildNodes[4].InnerText = Convert.ToString(mod.OverrideGameFolder);
+            modNode.ChildNodes[5].InnerText = mod.GameFolder;
 
             xmlDoc.Save("config.xml");
         }
@@ -235,8 +235,8 @@ namespace ModSwitcherLib
             mod.modType = (ModType)Enum.Parse(typeof(ModType), node.ChildNodes[1].InnerText, true);
             mod.ModPath = node.ChildNodes[2].InnerText;
             mod.ExtraFlags = node.ChildNodes[3].InnerText;
-            mod.OverrideGamePath = Convert.ToBoolean(node.ChildNodes[4].InnerText);
-            mod.GamePath = node.ChildNodes[5].InnerText;
+            mod.OverrideGameFolder = Convert.ToBoolean(node.ChildNodes[4].InnerText);
+            mod.GameFolder = node.ChildNodes[5].InnerText;
 
             return mod;
         }

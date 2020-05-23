@@ -68,12 +68,12 @@
       <DependentUpon>AddEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\EnumToStringConverter.cs" />
-    <Compile Include="Views\GamePathWindow.xaml.cs">
-      <DependentUpon>GamePathWindow.xaml</DependentUpon>
+    <Compile Include="Views\GameFolderWindow.xaml.cs">
+      <DependentUpon>GameFolderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddEditViewModel.cs" />
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="ViewModels\GamePathViewModel.cs" />
+    <Compile Include="ViewModels\GameFolderViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Views\AboutWindow.xaml">
@@ -84,7 +84,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GamePathWindow.xaml">
+    <Page Include="Views\GameFolderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

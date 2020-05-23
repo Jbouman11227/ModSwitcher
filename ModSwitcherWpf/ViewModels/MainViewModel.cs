@@ -34,9 +34,9 @@ namespace ModSwitcherWpf.ViewModels
                 string currentModName = null;
                 XMLConfig.ReadXML(ModNameList, ref currentModName);
                 CurrentModName = currentModName;
-                if (string.IsNullOrEmpty(XMLConfig.ReadGamePath()))
+                if (string.IsNullOrEmpty(XMLConfig.ReadGameFolder()))
                 {
-                    bool clickedOK = (new GamePathWindow()).ShowDialogResult();
+                    bool clickedOK = (new GameFolderWindow()).ShowDialogResult();
                     if (!clickedOK && CloseAction != null)
                     {
                         CloseAction();
@@ -107,10 +107,9 @@ namespace ModSwitcherWpf.ViewModels
         #region Commands
         private void StartGame()
         {
-            try 
+            try
             {
                 var currentMod = XMLConfig.ReadMod(CurrentModName);
-                var gameFilePath = GetGamePath(currentMod) + XMLConfig.ReadGameFile(); 
 
                 string flag = string.Empty;
                 if (!string.IsNullOrWhiteSpace(currentMod.ModPath))
@@ -121,8 +120,16 @@ namespace ModSwitcherWpf.ViewModels
                 {
                     flag += (flag == string.Empty ? string.Empty : " ") + currentMod.ExtraFlags.Trim();
                 }
-         
-                Process.Start($"\"{gameFilePath}\"", flag);
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = XMLConfig.ReadGameFile(),
+                    WorkingDirectory = GetGameFolder(currentMod),
+                    Arguments = flag
+                };
+
+                Process.Start(startInfo);
+
                 CloseAction?.Invoke();
             }
             catch (Exception e)
@@ -155,8 +162,12 @@ namespace ModSwitcherWpf.ViewModels
         {
             try
             {
-                var startInfo = new ProcessStartInfo(XMLConfig.ReadPatchSwitcher());
-                startInfo.WorkingDirectory = XMLConfig.ReadGamePath();
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = XMLConfig.ReadPatchSwitcher(),
+                    WorkingDirectory = XMLConfig.ReadGameFolder()
+                };
+
                 Process.Start(startInfo);
             }
             catch(Exception e)
@@ -203,19 +214,19 @@ namespace ModSwitcherWpf.ViewModels
 
         private void Settings()
         {
-            var gamePathWindow = new GamePathWindow();
-            gamePathWindow.ShowDialog();
+            var gameFolderWindow = new GameFolderWindow();
+            gameFolderWindow.ShowDialog();
         }
 
-        private string GetGamePath(Mod mod)
+        private string GetGameFolder(Mod mod)
         {
-            if (mod.OverrideGamePath)
+            if (mod.OverrideGameFolder)
             {
-                return mod.GamePath;
+                return mod.GameFolder;
             }
             else
             {
-                return XMLConfig.ReadGamePath();
+                return XMLConfig.ReadGameFolder();
             }
         }
 

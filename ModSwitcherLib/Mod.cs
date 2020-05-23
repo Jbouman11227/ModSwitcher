@@ -8,8 +8,8 @@
             modType = ModType.File;
             ModPath = null;
             ExtraFlags = null;
-            OverrideGamePath = false;
-            GamePath = null;
+            OverrideGameFolder = false;
+            GameFolder = null;
         }
 
         public string ModName { get; set; }
@@ -20,8 +20,8 @@
 
         public string ExtraFlags { get; set; }
 
-        public bool OverrideGamePath { get; set; }
+        public bool OverrideGameFolder { get; set; }
 
-        public string GamePath { get; set; }
+        public string GameFolder { get; set; }
     }
 }

@@ -5,27 +5,27 @@ using System.Windows.Forms;
 
 namespace ModSwitcherWpf.ViewModels
 {
-    public class GamePathViewModel : ViewModelBase
+    public class GameFolderViewModel : ViewModelBase
     {
         #region Constructors
-        public GamePathViewModel()
+        public GameFolderViewModel()
         {
 
         }
 
-        public GamePathViewModel(Action closeAction)
+        public GameFolderViewModel(Action closeAction)
         {
-            GamePath = null;
+            GameFolder = null;
             ClickedOK = false;
             CloseAction = closeAction;
 
             try
             {
-                GamePath = XMLConfig.ReadGamePath();
+                GameFolder = XMLConfig.ReadGameFolder();
             }
             catch(Exception e)
             {
-                MessageBox.Show($"Failed to load default game path: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Failed to load default game folder: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CloseAction?.Invoke();
             }
         }
@@ -34,19 +34,19 @@ namespace ModSwitcherWpf.ViewModels
         #region Properties
         public Action CloseAction;
 
-        private string _gamePath;
+        private string _gameFolder;
 
-        public string GamePath
+        public string GameFolder
         {
             get
             {
-                return _gamePath;
+                return _gameFolder;
             }
             set
             {
-                _gamePath = value;
+                _gameFolder = value;
                 OnPropertyChanged("OKEnabled");
-                OnPropertyChanged("GamePath");
+                OnPropertyChanged("GameFolder");
             }
         }
 
@@ -54,7 +54,7 @@ namespace ModSwitcherWpf.ViewModels
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(GamePath);
+                return !string.IsNullOrWhiteSpace(GameFolder);
             }
         }
 
@@ -65,11 +65,11 @@ namespace ModSwitcherWpf.ViewModels
         private void OpenFolderDialog()
         {
             var folderBrowseDialog = new FolderBrowserDialog();
-            folderBrowseDialog.Description = "Select the Game Path:";
+            folderBrowseDialog.Description = "Select the Game Folder:";
             var result = folderBrowseDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                GamePath = folderBrowseDialog.SelectedPath;
+                GameFolder = folderBrowseDialog.SelectedPath;
             }
         }
 
@@ -79,12 +79,12 @@ namespace ModSwitcherWpf.ViewModels
 
             try
             {
-                XMLConfig.SetGamePath(GamePath);
+                XMLConfig.SetGameFolder(GameFolder);
             }
             catch(Exception e)
             {
-                MessageBox.Show($"Failed to set default game path: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                GamePath = null;
+                MessageBox.Show($"Failed to set default game folder: {e.Message.AddPeriod()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GameFolder = null;
                 ClickedOK = false;
                 return;
             }

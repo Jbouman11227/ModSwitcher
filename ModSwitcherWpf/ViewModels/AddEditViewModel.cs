@@ -61,16 +61,16 @@ namespace ModSwitcherWpf.ViewModels
 
         public string SelectedModName { get; set; }
 
-        public bool OverrideGamePath
+        public bool OverrideGameFolder
         {
             get
             {
-                return TheMod.OverrideGamePath;
+                return TheMod.OverrideGameFolder;
             }
             set
             {
-                TheMod.OverrideGamePath = value;
-                OnPropertyChanged("OverrideGamePath");
+                TheMod.OverrideGameFolder = value;
+                OnPropertyChanged("OverrideGameFolder");
             }
         }
 
@@ -173,14 +173,14 @@ namespace ModSwitcherWpf.ViewModels
 
         }
 
-        private void OpenGamePathDialog()
+        private void OpenGameFolderDialog()
         {
             var folderBrowseDialog = new FolderBrowserDialog();
-            folderBrowseDialog.Description = "Select the Game Path:";
+            folderBrowseDialog.Description = "Select the Game Folder:";
             var result = folderBrowseDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                TheMod.GamePath = folderBrowseDialog.SelectedPath;
+                TheMod.GameFolder = folderBrowseDialog.SelectedPath;
                 OnPropertyChanged("TheMod");
             }
         }
@@ -214,11 +214,11 @@ namespace ModSwitcherWpf.ViewModels
             }
         }
 
-        public ICommand OpenGamePathDialogCommand
+        public ICommand OpenGameFolderDialogCommand
         {
             get
             {
-                return new DelegateCommand(OpenGamePathDialog);
+                return new DelegateCommand(OpenGameFolderDialog);
             }
         }
         #endregion
